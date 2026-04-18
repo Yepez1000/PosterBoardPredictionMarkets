@@ -223,41 +223,28 @@
 
 \begin{column}{\colwidth}
 
-  \begin{block}{Model II: Earnings Model}
+  \begin{block}{Model II: Earnings Convergence Model}
+    The model identifies alpha by detecting convergence between prediction market probabilities and fundamental analyst data.
 
-
-    \textbf{Signal Components:}
-
+    \textbf{1. Signal Normalization ($x_i$)}
     \begin{itemize}
-      \item Polymarket price (probability) of beating earings  
-      \item StarMine SmartEstimates EPS Score
-      \item 200 days of analyst recommendation
+      \item \textbf{Polymarket Momentum ($x_1$):} $p \in [0,1]$ is normalized and scaled by logarithmic liquidity $V$:
+      \[ x_1 = 2(p - 0.5) \cdot \max\left( \frac{\log_{10}(V)}{5}, 1 \right) \]
+      \item \textbf{SmartEstimate Surprise ($x_2$):} The Refinitiv StarMine percentage surprise $S_{pct}$ is normalized over a 20\% threshold:
+      \[ x_2 = \min\left(\max\left(\frac{S_{pct}}{20}, -1\right), 1\right) \]
+      \item \textbf{Analyst Sentiment ($x_3$):} Rescales mean recommendations $A_{rec} \in [1,5]$:
+      \[ x_3 = \frac{A_{rec} - 3}{2} \]
     \end{itemize}
 
+    \textbf{2. Execution Logic (Binary)}
+    A trade is initiated \textbf{if and only if} all signals show total directional consensus:
+    \[ \text{Condition: } (x_1, x_2, x_3) > 0 \quad \text{or} \quad (x_1, x_2, x_3) < 0 \]
+    Each component is bounded such that $x_i \in [-1, 1]$.
 
-    If all components agree, place a trade on that direction.
-
-
-    \textbf{Position Sizing:}
-
-    Assign a weight to each component based on predictive power, $w_1, w_2, w_3$ such that $w_1 + w_2 + w_3 = 1$. \\
-    Polymarket price is normalized to [-1,1], by taking price (p - 0.5) * 2, then scaled by volume. 
-    Volume Scale = max( $\frac{log_{10}(volume)}{5}$, 1)
-
-
-    Smart Estimate 
-
-
-    analyst recommendation are a range of 1,5 so to nromaile it subtract 3 form the mean socre and divide by 3 
-    $\frac{A_{rec} - 3}{2}$
-
-    $x_1 * w_1 + x_2 * w_2 + x_3 * w_3 \in [-1,1] $
-
-
-
-
-
-
+    \textbf{3. Portfolio Allocation \& Risk Management ($\Phi$)}
+    If the execution condition is met, the allocation $\Phi$ (fraction of total portfolio) is determined by scaling the signal by the \textbf{Portfolio Risk Fraction} ($\gamma$):
+    \[ \Phi = \gamma \cdot \left( \sum_{i=1}^{3} w_i x_i \right), \quad \gamma \in (0, 1] \]
+    The component consensus acts as the \textit{execution gate}, while the magnitude of $\Phi$ determines the \textit{capital commitment}.
 
   \end{block}
 

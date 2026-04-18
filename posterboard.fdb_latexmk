@@ -1,10 +1,10 @@
 # Fdb version 4
-["xdvipdfmx"] 1776488487.34999 "posterboard.xdv" "posterboard.pdf" "posterboard" 1776488491.06048 0
-  "posterboard.xdv" 1776488487.29036 48460 b1bc77a9e1139d8dc13768bbb543ac3b "xelatex"
+["xdvipdfmx"] 1776524560.87592 "posterboard.xdv" "posterboard.pdf" "posterboard" 1776524564.66402 0
+  "posterboard.xdv" 1776524560.81774 52660 438013cfc413a299ba91daa51465c9e4 "xelatex"
   (generated)
   "posterboard.pdf"
   (rewritten before read)
-["xelatex"] 1776488485.69455 "posterboard.tex" "posterboard.xdv" "posterboard" 1776488491.05799 0
+["xelatex"] 1776524559.18901 "posterboard.tex" "posterboard.xdv" "posterboard" 1776524564.66153 0
   "../paper/Bitcoin_15m_Price_paths.png" 1776303523.42264 3677292 ede21ba19f7e81f6e4fe1725befdfb1f ""
   "../paper/Bronwian_Prediciton_Markets.png" 1776301525.57669 997932 ea5f5507d96d368bdcf7151f907591c7 ""
   "../paper/Brown_PM_Distributions_Evolution.png" 1776301523.0065 108404 f9a6a626e361d48e883f4435b83b664b ""
@@ -287,10 +287,10 @@
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
   "beamercolorthemetamu.sty" 1776464773.36577 1577 3995b6228951e5db8e5a3ef0795921ee ""
   "beamerthemegemini.sty" 1776464868.30062 6941 7a8aa94be96d999be2570cb05fc296d8 ""
-  "posterboard.aux" 1776488487.28925 574 93ad45cfbeb29afa8dec02710dac5869 "xelatex"
-  "posterboard.nav" 1776488487.29026 307 9e520c26371a1250ff9fc1fe87f9c655 "xelatex"
-  "posterboard.out" 1776488487.09389 0 d41d8cd98f00b204e9800998ecf8427e "xelatex"
-  "posterboard.tex" 1776488483.8201 8374 f73210f974b164595af857bed29db3af ""
+  "posterboard.aux" 1776524560.81678 574 93ad45cfbeb29afa8dec02710dac5869 "xelatex"
+  "posterboard.nav" 1776524560.81766 307 9e520c26371a1250ff9fc1fe87f9c655 "xelatex"
+  "posterboard.out" 1776524560.61221 0 d41d8cd98f00b204e9800998ecf8427e "xelatex"
+  "posterboard.tex" 1776524558.66359 9094 34984eff0523d52cab205f6eddf48ca3 ""
   (generated)
   "posterboard.aux"
   "posterboard.log"
