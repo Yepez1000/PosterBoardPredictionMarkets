@@ -45,7 +45,7 @@
 % Title
 % ====================
 
-\title{Hybrid Alpha: Integrating Fundamental Research and Insider Detection in Prediction Markets}
+\title{Research and Top Wallet Detection in Prediction Markets}
 
 \author{Edgar Yepez and Max Leal}
 
@@ -56,9 +56,7 @@
 % ====================
 
 \footercontent{
-  \href{https://www.informs.org/}{https://www.informs.org/} \hfill
-  2023 INFORMS Annual Meeting, Phoenix, AZ \hfill
-  \href{mailto:yours@gatech.edu}{yours@tamu.edu}}
+  \href{mailto:eyepez@tamu.edu}{eyepez@tamu.edu}}
 % (can be left out to remove footer)
 
 % ====================
@@ -197,6 +195,9 @@
   \begin{block}{Model I }
 
 
+    trade on eth, btc. sol, xrp, 
+
+
     \[
       Signal = \sum_{i=0}^n\frac{W_{score}*Pos *Price * dir}{W_{score}*Pos *Price}  
     \]
@@ -205,6 +206,9 @@
     \[
       dir \in \{-1, 1\}, W_{score} \in [0,100], Pos \in \mathbb{R}^+, Price \in [0,1]
     \]
+
+    if signal is above a treshold place a trade, and ifs below another therhold then close the position. 
+    
 
   \end{block}
 
@@ -258,7 +262,45 @@
   \end{block}
 
   \begin{block}{Results}
+    Polymarket introduced dedicated earnings contracts in September 2025, therefore the backtest period for the earnings model is limited to Q4 2025. The model only traded 9 stocks out of 500. 
 
+    \begin{columns}[t]
+      \begin{column}{0.45\linewidth}
+        \textbf{Performance Summary}
+        \begin{table}
+          \centering
+          \begin{tabular}{l r}
+            \toprule
+            \textbf{Metric} \& \textbf{Value} \\
+            \midrule
+            Total Realized PnL \& \$350.80 \\
+            Winning Trades \& 7 / 9 \\
+            \textbf{Win Rate} \& \textbf{77.78\%} \\
+            Long Win Rate \& 100\% \\
+            Short Win Rate \& 75\% \\
+            \textbf{Sharpe Ratio} \& \textbf{2.2642} \\
+            \bottomrule
+          \end{tabular}
+        \end{table}
+      \end{column}
+
+      \begin{column}{0.55\linewidth}
+        \textbf{Sample Strategy Executions}
+        \begin{table}
+          \centering
+          \begin{tabular}{l c c r}
+            \toprule
+            \textbf{Ticker} \& \textbf{Type} \& \textbf{Entry} \& \textbf{Return} \\
+            \midrule
+            COIN \& Short \& \$162.56 \& +13.2\% \\
+            WYNN \& Short \& \$117.25 \& +8.0\% \\
+            SUN  \& Long  \& \$57.65  \& +4.9\% \\
+            DEFT \& Short \& \$1.51   \& -16.1\% \\
+            \bottomrule
+          \end{tabular}
+        \end{table}
+      \end{column}
+    \end{columns}
 
   \end{block}
 
