@@ -47,7 +47,7 @@
 
 \title{Hybrid Alpha: Integrating Fundamental Research and Insider Detection in Prediction Markets}
 
-\author{Edgar Yepez}
+\author{Edgar Yepez and Max Leal}
 
 \institute[shortinst]{Department of Mathematics, Texas A\&M University}
 
@@ -88,37 +88,90 @@
 
 \begin{column}{\colwidth}
 
-  \begin{block}{Model I: PredictionMkts (Fundamental Research)}
+  \begin{block}{Prediction Markets Review}
 
+    \begin{columns}[t]
+    \begin{column}{0.5\linewidth}
+
+      \textbf{YES/NO Securities}
+      \begin{itemize}
+        \item Price $\in [0,1]$ represents implied probability
+        \item YES security pays \$1 if event occurs
+        \item NO security pays \$1 if event does not occur
+      \end{itemize}
+
+      \textbf{Probability Space}
+      \begin{itemize}
+        \item $(\Omega, \mathcal{F}, P)$: sample space, events, probability measure
+        \item $\Omega$: all possible states of the world
+        \item Filtration $\mathbb{F} = (\mathcal{F}_t)$: information flow over time
+      \end{itemize}
+
+      \textbf{Martingale}
+      \begin{itemize}
+        \item Model for a fair game
+        \item $E[X_{t+1} | \mathcal{F}_t] = X_t$
+        \item Current price equals expected future value
+      \end{itemize}
+
+      \textbf{Brownian Motion}
+      \begin{itemize}
+        \item Continuous-time stochastic process
+        \item $W(t) \sim N(0, t)$ with continuous paths
+        \item $\sqrt{\Delta t}$ scaling for variance consistency
+      \end{itemize}
+
+    \end{column}
+
+
+
+
+    \begin{column}{0.5\linewidth}
+
+      \textbf{Evolution: Theory to Practice}
+
+      \begin{columns}[t]
+        \begin{column}{0.5\linewidth}
+          \begin{figure}
+            \centering
+            \includegraphics[width=\linewidth]{../paper/Bronwian_Prediciton_Markets.png}
+            \caption{Brownian Motion Simulation}
+          \end{figure}
+        \end{column}
+
+        \begin{column}{0.5\linewidth}
+          \begin{figure}
+            \centering
+            \includegraphics[width=\linewidth]{../paper/Bitcoin_15m_Price_paths.png}
+            \caption{15-minute Bitcoin Market (Real)}
+          \end{figure}
+        \end{column}
+      \end{columns}
+
+      \begin{columns}[t]
+        \begin{column}{0.5\linewidth}
+          \begin{figure}
+            \centering
+            \includegraphics[width=\linewidth]{../paper/Brown_PM_Distributions_Evolution.png}
+            \caption{Theory: Distribution Evolution (Normal $\to$ Bimodal)}
+          \end{figure}
+        \end{column}
+
+        \begin{column}{0.5\linewidth}
+          \begin{figure}
+            \centering
+            \includegraphics[width=\linewidth]{../paper/Evol_15min_mkrsDistibition.png}
+            \caption{Real: 15-min Market Distribution}
+          \end{figure}
+        \end{column}
+      \end{columns}
+
+    \end{column}
+    \end{columns}
 
   \end{block}
 
-  \begin{block}{The Intelligence Funnel: PolyMarketInsiders}
 
-
-  \end{block}
-
-\end{column}
-
-\separatorcolumn
-
-\begin{column}{\colwidth}
-
-  \begin{block}{Model II: Polymarket-engine (Live Execution)}
-
-
-  \end{block}
-
-  \begin{block}{System Integration \& Insider Overlay}
-
-
-  \end{block}
-
-\end{column}
-
-\separatorcolumn
-
-\begin{column}{\colwidth}
 
   \begin{block}{Analysis of the Top Wallet Signals}
 
@@ -127,19 +180,94 @@
       \centering
       \begin{tabular}{l c r}
         \toprule
-        \textbf{Signal Type} & \textbf{Source} & \textbf{Weight} \\
+        \textbf{Signal Type} \& \textbf{Source} \& \textbf{Weight} \\
         \midrule
-        Profit Factor & Insiders & 20\% \\
-        Fund-to-Trade Gap & Insiders & 15\% \\
-        EPS Z-Score & PredictionMkts & 25\% \\
-        Analyst Sentiment & PredictionMkts & 15\% \\
-        Volatility-Adaptive & Engine & 25\% \\
+        Profit Factor \& Insiders \& 20\% \\
+        Fund-to-Trade Gap \& Insiders \& 15\% \\
+        EPS Z-Score \& PredictionMkts \& 25\% \\
+        Analyst Sentiment \& PredictionMkts \& 15\% \\
+        Volatility-Adaptive \& Engine \& 25\% \\
         \bottomrule
       \end{tabular}
       \caption{Composite Signal Weights.}
     \end{table}
 
   \end{block}
+
+  \begin{block}{Model I }
+
+
+    \[
+      Signal = \sum_{i=0}^n\frac{W_{score}*Pos *Price * dir}{W_{score}*Pos *Price}  
+    \]
+
+
+    \[
+      dir \in \{-1, 1\}, W_{score} \in [0,100], Pos \in \mathbb{R}^+, Price \in [0,1]
+    \]
+
+  \end{block}
+
+  % \begin{block}{The Intelligence Funnel: PolyMarketInsiders}
+
+
+  % \end{block}
+
+\end{column}
+
+\separatorcolumn
+
+\begin{column}{\colwidth}
+
+  \begin{block}{Model II: Earnings Model}
+
+
+    \textbf{Signal Components:}
+
+    \begin{itemize}
+      \item Polymarket price (probability) of beating earings  
+      \item StarMine SmartEstimates EPS Score
+      \item 200 days of analyst recommendation
+    \end{itemize}
+
+
+    If all components agree, place a trade on that direction.
+
+
+    \textbf{Position Sizing:}
+
+    Assign a weight to each component based on predictive power, $w_1, w_2, w_3$ such that $w_1 + w_2 + w_3 = 1$. \\
+    Polymarket price is normalized to [-1,1], by taking price (p - 0.5) * 2, then scaled by volume. 
+    Volume Scale = max( $\frac{log_{10}(volume)}{5}$, 1)
+
+
+    Smart Estimate 
+
+
+    analyst recommendation are a range of 1,5 so to nromaile it subtract 3 form the mean socre and divide by 3 
+    $\frac{A_{rec} - 3}{2}$
+
+    $x_1 * w_1 + x_2 * w_2 + x_3 * w_3 \in [-1,1] $
+
+
+
+
+
+
+
+  \end{block}
+
+  \begin{block}{Results}
+
+
+  \end{block}
+
+\end{column}
+
+\separatorcolumn
+
+\begin{column}{\colwidth}
+
 
   \begin{block}{Conclusion \& Future Work}
 

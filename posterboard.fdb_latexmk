@@ -1,10 +1,14 @@
 # Fdb version 4
-["xdvipdfmx"] 1776467355.66845 "posterboard.xdv" "posterboard.pdf" "posterboard" 1776467355.89917 0
-  "posterboard.xdv" 1776467355.61043 22740 83d2dc67899c60f462b30a92ce1fd4c0 "xelatex"
+["xdvipdfmx"] 1776486790.20215 "posterboard.xdv" "posterboard.pdf" "posterboard" 1776486793.94743 0
+  "posterboard.xdv" 1776486790.14476 41784 949cd3852a2b27dc3281b464df85766e "xelatex"
   (generated)
   "posterboard.pdf"
   (rewritten before read)
-["xelatex"] 1776467354.09726 "posterboard.tex" "posterboard.xdv" "posterboard" 1776467355.89677 0
+["xelatex"] 1776486788.54867 "posterboard.tex" "posterboard.xdv" "posterboard" 1776486793.94489 0
+  "../paper/Bitcoin_15m_Price_paths.png" 1776303523.42264 3677292 ede21ba19f7e81f6e4fe1725befdfb1f ""
+  "../paper/Bronwian_Prediciton_Markets.png" 1776301525.57669 997932 ea5f5507d96d368bdcf7151f907591c7 ""
+  "../paper/Brown_PM_Distributions_Evolution.png" 1776301523.0065 108404 f9a6a626e361d48e883f4435b83b664b ""
+  "../paper/Evol_15min_mkrsDistibition.png" 1776303527.92844 176495 b0555d4a358102addeeef32e93b0ff9c ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/zapfding/pzdr.tfm" 1136768653 1528 f853c4d1b4e0550255e02831fdc8496f ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
@@ -283,10 +287,10 @@
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
   "beamercolorthemetamu.sty" 1776464773.36577 1577 3995b6228951e5db8e5a3ef0795921ee ""
   "beamerthemegemini.sty" 1776464868.30062 6941 7a8aa94be96d999be2570cb05fc296d8 ""
-  "posterboard.aux" 1776467355.60912 574 93ad45cfbeb29afa8dec02710dac5869 "xelatex"
-  "posterboard.nav" 1776467355.61011 307 9e520c26371a1250ff9fc1fe87f9c655 "xelatex"
-  "posterboard.out" 1776467355.45047 0 d41d8cd98f00b204e9800998ecf8427e "xelatex"
-  "posterboard.tex" 1776467352.08337 3532 c15b0ca0fd8b3157f27c56b0bbb2ae36 ""
+  "posterboard.aux" 1776486790.14361 574 93ad45cfbeb29afa8dec02710dac5869 "xelatex"
+  "posterboard.nav" 1776486790.14465 307 9e520c26371a1250ff9fc1fe87f9c655 "xelatex"
+  "posterboard.out" 1776486789.95349 0 d41d8cd98f00b204e9800998ecf8427e "xelatex"
+  "posterboard.tex" 1776486788.34426 6967 e495d5af9f22d8dbb57d2697d1270eb3 ""
   (generated)
   "posterboard.aux"
   "posterboard.log"

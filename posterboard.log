@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.3.8)  17 APR 2026 18:09
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.3.8)  17 APR 2026 23:33
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -991,6 +991,15 @@ File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
+File: ../paper/Bronwian_Prediciton_Markets.png Graphic file (type bmp)
+<../paper/Bronwian_Prediciton_Markets.png>
+File: ../paper/Bitcoin_15m_Price_paths.png Graphic file (type bmp)
+<../paper/Bitcoin_15m_Price_paths.png>
+File: ../paper/Brown_PM_Distributions_Evolution.png Graphic file (type bmp)
+<../paper/Brown_PM_Distributions_Evolution.png>
+File: ../paper/Evol_15min_mkrsDistibition.png Graphic file (type bmp)
+<../paper/Evol_15min_mkrsDistibition.png>
+
 
 [1
 
@@ -1013,12 +1022,12 @@ Package rerunfilecheck Info: File `posterboard.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 40212 strings out of 473832
- 970892 string characters out of 5729482
- 1577108 words of memory out of 5000000
- 62519 multiletter control sequences out of 15000+600000
- 587543 words of font info for 85 fonts, out of 8000000 for 9000
+ 40282 strings out of 473832
+ 973289 string characters out of 5729482
+ 1602108 words of memory out of 5000000
+ 62583 multiletter control sequences out of 15000+600000
+ 591784 words of font info for 91 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 128i,18n,123p,732b,970s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 128i,18n,123p,732b,1679s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on posterboard.xdv (1 page, 22740 bytes).
+Output written on posterboard.xdv (1 page, 41784 bytes).
