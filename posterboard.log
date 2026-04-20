@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.3.8)  20 APR 2026 00:44
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.3.8)  20 APR 2026 00:51
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -991,110 +991,14 @@ File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-
-LaTeX Warning: File `../Bronwian_Prediciton_Markets.png' not found on input line 315.
-
-./posterboard.tex:315: Unable to load picture or PDF file '../Bronwian_Prediciton_Markets.png'.
-<to be read again> 
-                   }
-l.315 \end{frame}
-                 
-The requested image couldn't be read because
-it was not a recognized image format.
-
-
-./posterboard.tex:315: Package graphics Error: Division by 0.
-
-See the graphics package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.315 \end{frame}
-                 
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-File: ../Bronwian_Prediciton_Markets.png Graphic file (type bmp)
-<../Bronwian_Prediciton_Markets.png>
-
-LaTeX Warning: File `../Bitcoin_15m_Price_paths.png' not found on input line 315.
-
-./posterboard.tex:315: Unable to load picture or PDF file '../Bitcoin_15m_Price_paths.png'.
-<to be read again> 
-                   }
-l.315 \end{frame}
-                 
-The requested image couldn't be read because
-it was not a recognized image format.
-
-
-./posterboard.tex:315: Package graphics Error: Division by 0.
-
-See the graphics package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.315 \end{frame}
-                 
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-File: ../Bitcoin_15m_Price_paths.png Graphic file (type bmp)
-<../Bitcoin_15m_Price_paths.png>
-
-LaTeX Warning: File `../Brown_PM_Distributions_Evolution.png' not found on input line 315.
-
-./posterboard.tex:315: Unable to load picture or PDF file '../Brown_PM_Distributions_Evolution.png'.
-<to be read again> 
-                   }
-l.315 \end{frame}
-                 
-The requested image couldn't be read because
-it was not a recognized image format.
-
-
-./posterboard.tex:315: Package graphics Error: Division by 0.
-
-See the graphics package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.315 \end{frame}
-                 
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-File: ../Brown_PM_Distributions_Evolution.png Graphic file (type bmp)
-<../Brown_PM_Distributions_Evolution.png>
-
-LaTeX Warning: File `../Evol_15min_mkrsDistibition.png' not found on input line 315.
-
-./posterboard.tex:315: Unable to load picture or PDF file '../Evol_15min_mkrsDistibition.png'.
-<to be read again> 
-                   }
-l.315 \end{frame}
-                 
-The requested image couldn't be read because
-it was not a recognized image format.
-
-
-./posterboard.tex:315: Package graphics Error: Division by 0.
-
-See the graphics package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.315 \end{frame}
-                 
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-File: ../Evol_15min_mkrsDistibition.png Graphic file (type bmp)
-<../Evol_15min_mkrsDistibition.png>
+File: Bronwian_Prediciton_Markets.png Graphic file (type bmp)
+<Bronwian_Prediciton_Markets.png>
+File: Bitcoin_15m_Price_paths.png Graphic file (type bmp)
+<Bitcoin_15m_Price_paths.png>
+File: Brown_PM_Distributions_Evolution.png Graphic file (type bmp)
+<Brown_PM_Distributions_Evolution.png>
+File: Evol_15min_mkrsDistibition.png Graphic file (type bmp)
+<Evol_15min_mkrsDistibition.png>
 LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <24.88> not available
 (Font)              Font shape `TU/lmss/m/sl' tried instead on input line 315.
 
@@ -1120,12 +1024,12 @@ Package rerunfilecheck Info: File `posterboard.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 40466 strings out of 473832
- 981000 string characters out of 5729482
- 1617106 words of memory out of 5000000
- 62764 multiletter control sequences out of 15000+600000
+ 40293 strings out of 473832
+ 973361 string characters out of 5729482
+ 1617107 words of memory out of 5000000
+ 62592 multiletter control sequences out of 15000+600000
  591800 words of font info for 93 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  128i,18n,123p,732b,1679s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on posterboard.xdv (1 page, 52560 bytes).
+Output written on posterboard.xdv (1 page, 52624 bytes).
