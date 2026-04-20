@@ -1,10 +1,10 @@
 # Fdb version 4
-["xdvipdfmx"] 1776664310.75046 "posterboard.xdv" "posterboard.pdf" "posterboard" 1776664314.55331 0
-  "posterboard.xdv" 1776664310.68314 52624 cef36126b4b27a02e53ea6ae01ac0b2e "xelatex"
+["xdvipdfmx"] 1776705636.80832 "posterboard.xdv" "posterboard.pdf" "posterboard" 1776705640.55404 0
+  "posterboard.xdv" 1776705636.75154 104380 b9a212e51f80e994544b4c45b97af535 "xelatex"
   (generated)
   "posterboard.pdf"
   (rewritten before read)
-["xelatex"] 1776664309.12156 "posterboard.tex" "posterboard.xdv" "posterboard" 1776664314.55068 0
+["xelatex"] 1776705635.1136 "posterboard.tex" "posterboard.xdv" "posterboard" 1776705640.55152 0
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/zapfding/pzdr.tfm" 1136768653 1528 f853c4d1b4e0550255e02831fdc8496f ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
@@ -281,16 +281,16 @@
   "/usr/local/texlive/2025/texmf-dist/web2c/texmf.cnf" 1739380943 42148 61becc7c670cd061bb319c643c27fdd4 ""
   "/usr/local/texlive/2025/texmf-var/web2c/xetex/xelatex.fmt" 1741450550 5639796 b6822fbf027c6598cec2e241e0925725 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
-  "Bitcoin_15m_Price_paths.png" 1776663852.3929 3677292 ede21ba19f7e81f6e4fe1725befdfb1f ""
-  "Bronwian_Prediciton_Markets.png" 1776663849.18319 997932 ea5f5507d96d368bdcf7151f907591c7 ""
-  "Brown_PM_Distributions_Evolution.png" 1776663846.19449 108404 f9a6a626e361d48e883f4435b83b664b ""
-  "Evol_15min_mkrsDistibition.png" 1776663842.27302 176495 b0555d4a358102addeeef32e93b0ff9c ""
+  "Bitcoin_15m_Price_paths.png" 1776664592.01422 3677292 ede21ba19f7e81f6e4fe1725befdfb1f ""
+  "Bronwian_Prediciton_Markets.png" 1776664592.01656 997932 ea5f5507d96d368bdcf7151f907591c7 ""
+  "Brown_PM_Distributions_Evolution.png" 1776664592.01697 108404 f9a6a626e361d48e883f4435b83b664b ""
+  "Evol_15min_mkrsDistibition.png" 1776664592.01756 176495 b0555d4a358102addeeef32e93b0ff9c ""
   "beamercolorthemetamu.sty" 1776464773.36577 1577 3995b6228951e5db8e5a3ef0795921ee ""
   "beamerthemegemini.sty" 1776464868.30062 6941 7a8aa94be96d999be2570cb05fc296d8 ""
-  "posterboard.aux" 1776664310.68214 574 93ad45cfbeb29afa8dec02710dac5869 "xelatex"
-  "posterboard.nav" 1776664310.68304 307 9e520c26371a1250ff9fc1fe87f9c655 "xelatex"
-  "posterboard.out" 1776664310.47572 0 d41d8cd98f00b204e9800998ecf8427e "xelatex"
-  "posterboard.tex" 1776664311.2536 9058 2d7cf60a163c5caaf3374c1b7bbc68fe ""
+  "posterboard.aux" 1776705636.75063 734 2d781c2d6403c2db5c2d2ff5157ac52c "xelatex"
+  "posterboard.nav" 1776705636.75147 395 640a03f4d3f0f705896c1d8375ddfa75 "xelatex"
+  "posterboard.out" 1776705636.471 0 d41d8cd98f00b204e9800998ecf8427e "xelatex"
+  "posterboard.tex" 1776705635.01153 17230 0b63128f7632dbff7c2cc16d5477dc28 ""
   (generated)
   "posterboard.aux"
   "posterboard.log"
