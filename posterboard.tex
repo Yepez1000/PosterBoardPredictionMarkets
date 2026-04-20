@@ -23,6 +23,7 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 \usepackage{anyfontsize}
+\usepackage{amsmath}
 
 \pdfstringdefDisableCommands{%
 \def\translate#1{#1}%
@@ -45,7 +46,7 @@
 % Title
 % ====================
 
-\title{Hybrid Alpha: Integrating Fundamental Research and Insider Detection in Prediction Markets}
+\title{Hybrid Alpha: Statistical Insider Detection \& Automated Execution in Decentralized Prediction Markets}
 
 \author{Edgar Yepez}
 
@@ -56,9 +57,9 @@
 % ====================
 
 \footercontent{
-  \href{https://www.informs.org/}{https://www.informs.org/} \hfill
-  2023 INFORMS Annual Meeting, Phoenix, AZ \hfill
-  \href{mailto:yours@gatech.edu}{yours@tamu.edu}}
+  \href{https://github.com/maxleal5/PolyMarketInsiders}{github.com/maxleal5/PolyMarketInsiders} \hfill
+  Texas A\&M University, 2026 \hfill
+  \href{https://github.com/maxleal5/Polymarket-Engine}{github.com/maxleal5/Polymarket-Engine}}
 % (can be left out to remove footer)
 
 % ====================
@@ -72,81 +73,332 @@
 % ====================
 
 \begin{document}
-% \addtobeamertemplate{headline}{}
-% {
-%     \begin{tikzpicture}[remember picture, overlay]
-%       \node [anchor=north west, inner sep=3cm] at ([xshift=0.0cm,yshift=3.5cm]current page.north west)
-%       {\includegraphics[height=10cm]{TAM-PrimaryMarkB-white.pdf}};
-%       \node [anchor=north east, inner sep=3cm] at ([xshift=2cm,yshift=1.5cm]current page.north east)
-%       {\includegraphics[height=5.5cm]{WMB_ISEN_horiz_white.pdf}};
-%     \end{tikzpicture}
-% }
 
 \begin{frame}[t]
 \begin{columns}[t]
 \separatorcolumn
 
+% ============================================================
+% COLUMN 1 — Detection & Intelligence
+% ============================================================
 \begin{column}{\colwidth}
 
-  \begin{block}{Model I: PredictionMkts (Fundamental Research)}
+  \begin{block}{Motivation \& Problem Statement}
 
+    Decentralized prediction markets (e.g.\ Polymarket) operate pseudonymously on-chain, allowing anyone with non-public information to place large bets with no identity verification.
 
-  \end{block}
+    \heading{The Maduro Case (2026)}
+    A newly-created wallet was funded and placed a \$30{,}000 bet on Nicol\'{a}s Maduro's removal---hours before the Trump administration's operation---netting \textbf{\textasciitilde\$400{,}000}. This pattern demands automated, systematic scrutiny.
 
-  \begin{block}{The Intelligence Funnel: PolyMarketInsiders}
-
-
-  \end{block}
-
-\end{column}
-
-\separatorcolumn
-
-\begin{column}{\colwidth}
-
-  \begin{block}{Model II: Polymarket-engine (Live Execution)}
-
+    \heading{Objective}
+    Build a two-system pipeline that (1)~\textbf{detects} wallets exhibiting repeatable alpha too consistent to be luck, and (2)~\textbf{trades} on those signals in real time across short-duration crypto prediction markets.
 
   \end{block}
 
-  \begin{block}{System Integration \& Insider Overlay}
+  \begin{block}{System I: PolyMarketInsiders --- Anomaly Detection}
 
+    An 8-step automated pipeline scans Polymarket every 10 minutes, computing \textbf{12 quantitative signals} per wallet and combining them into a composite \textbf{suspicion score} (0--100).
+
+    \heading{Pipeline Steps}
+    \begin{enumerate}
+      \setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}
+      \item Fetch viable markets (Polymarket Gamma API)
+      \item Score insider viability per market (0--1 scale)
+      \item Fetch all trades for high-viability markets
+      \item On-chain enrichment via PolygonScan USDC trace (fund-to-trade gap)
+      \item Compute 12 anomaly signals per wallet
+      \item Build full wallet behavioral profiles (PnL, win rate, streaks)
+      \item Dispatch alerts: Discord webhook (score $\geq 80$), CSV report (score $\geq 15$)
+      \item Persist top-77 flagged wallets to PostgreSQL
+    \end{enumerate}
+
+    \heading{The 12 Anomaly Signals}
+    \begin{table}
+      \centering
+      \small
+      \begin{tabular}{c l c p{16cm}}
+        \toprule
+        \textbf{\#} & \textbf{Signal} & \textbf{Wt} & \textbf{Detection Logic} \\
+        \midrule
+        1  & Profit Factor          & 28\% & $\text{gross\_wins} / \text{gross\_losses} > 2.5$ over $\geq$10 trades (180-day lookback) \\
+        2  & Pre-Resolution Spike   & 13\% & $z$-score $> 3.0$ vs.\ 90-day baseline in 24h window before resolution \\
+        3  & New Wallet + Large Bet & 10\% & First-ever trade $>$ \$500 on a viable market within 30 days of resolution \\
+        4  & Equity Curve Quality   &  7\% & Sharpe-like ratio $\times (1 - \text{max drawdown})$; steady upward PnL \\
+        5  & Fund-to-Trade Gap      &  6\% & Funded then traded: $<$1h (extreme), 1--6h (high), 6--24h (moderate) \\
+        6  & Position Flip          &  6\% & Last-minute correct side-switch with larger position size \\
+        7  & Market Concentration   &  6\% & Low category entropy + high fraction of insider-viable markets \\
+        8  & Insider Network Link   &  6\% & Wallet connected to known watchlist wallets (3-tier scoring) \\
+        9  & Win Rate Anomaly       &  5\% & Binomial test: win rate $> 65\%$, $p < 0.05$ \\
+        10 & Order Size Drift       &  4\% & Pre-resolution trade $> 4\times$ rolling average size \\
+        11 & Network Propagation    &  3\% & Funding source is itself a flagged wallet \\
+        12 & Consecutive Win Streak &  2\% & $\geq$5 consecutive wins on underdog-side entries (entry $< 0.55$) \\
+        \bottomrule
+      \end{tabular}
+    \end{table}
+
+    \heading{Market-Maker Exclusion Filters}
+    Insider traders make directional bets; market makers provide two-sided liquidity. Wallets are excluded when: sell ratio $> 30\%$, avg.\ trades/market $> 8$, round-trip ratio $> 40\%$, or two-sided positions in $> 3$ markets.
 
   \end{block}
 
-\end{column}
+  \begin{block}{Market Classification Engine}
 
-\separatorcolumn
-
-\begin{column}{\colwidth}
-
-  \begin{block}{Analysis of the Top Wallet Signals}
-
+    Not all markets are equally susceptible to insider information. Each market receives an \textbf{insider viability score} (0--1):
 
     \begin{table}
       \centering
-      \begin{tabular}{l c r}
+      \begin{tabular}{l c l}
         \toprule
-        \textbf{Signal Type} & \textbf{Source} & \textbf{Weight} \\
+        \textbf{Category} & \textbf{Base} & \textbf{Rationale} \\
         \midrule
-        Profit Factor & Insiders & 20\% \\
-        Fund-to-Trade Gap & Insiders & 15\% \\
-        EPS Z-Score & PredictionMkts & 25\% \\
-        Analyst Sentiment & PredictionMkts & 15\% \\
-        Volatility-Adaptive & Engine & 25\% \\
+        Politics / Geopolitics & 0.90 & Govt.\ decisions known before public announcement \\
+        Elections              & 0.85 & Internal polling, campaign intelligence \\
+        Law \& Crime           & 0.80 & Sealed indictments, pending arrests \\
+        Entertainment          & 0.60 & Award results, contract negotiations \\
+        Crypto                 & 0.20 & Generally efficient markets \\
+        Sports                 & 0.10 & Broadly monitored; harder to exploit \\
         \bottomrule
       \end{tabular}
-      \caption{Composite Signal Weights.}
     \end{table}
+
+    Keyword bonuses further increase scores: \emph{assassination} (+0.18), \emph{coup} (+0.18), \emph{indicted} (+0.14), \emph{arrested} (+0.12), \emph{resign} (+0.10). Binary markets and low-liquidity markets receive additional bonuses.
+
+  \end{block}
+
+\end{column}
+
+\separatorcolumn
+
+% ============================================================
+% COLUMN 2 — Live Execution Engine
+% ============================================================
+\begin{column}{\colwidth}
+
+  \begin{block}{System II: Polymarket Engine --- Automated Execution}
+
+    The Engine consumes flagged wallets from System~I and trades short-duration crypto prediction markets (5-min on Polymarket, 15-min on Kalshi) using a \textbf{Sentinel--Worker} architecture:
+
+    \begin{itemize}
+      \item \textbf{Sentinel} (single instance): handles all external API calls (Kalshi, Polymarket, production DB) and publishes data to Redis---zero redundant API calls.
+      \item \textbf{Workers} ($N$ parallel instances): subscribe to Redis, each running an independent strategy configuration with unique parameter DNA.
+    \end{itemize}
+
+    \heading{Weighted Insider Signal}
+    For each active market, the engine computes a directional signal $s \in [-1, +1]$:
+    \[
+      \text{signal} = \frac{\displaystyle\sum_{i}\; |s_i| \cdot \text{score}_i \cdot \text{dir}_i}{\displaystyle\sum_{i}\; |s_i| \cdot \text{score}_i}
+    \]
+    where $s_i$ is wallet $i$'s net position size, $\text{score}_i$ is its suspicion score from System~I, and $\text{dir}_i \in \{-1, +1\}$.
+
+    \textbf{Consensus flag}: when $>$3 wallets agree on a direction with 0 on the opposing side, the allocation fraction doubles.
+
+    \heading{Entry \& Exit Rules}
+    \begin{table}
+      \centering
+      \begin{tabular}{l l}
+        \toprule
+        \textbf{Condition} & \textbf{Rule} \\
+        \midrule
+        Enter Long/Short   & $|\text{signal}| > \theta_{\text{entry}}$, price $\in [0.10, 0.90]$, wallets $\geq$ min \\
+        Exit --- Weakened   & Signal drops below $\theta_{\text{exit}}$ toward zero \\
+        Exit --- Reversal   & Signal flips sign relative to open position \\
+        Exit --- Extreme    & Price $< 0.02$ or $> 0.99$ \\
+        Exit --- Dropout    & Insider count drops below minimum \\
+        Force Close         & Market expiry (window ends) \\
+        \bottomrule
+      \end{tabular}
+    \end{table}
+
+  \end{block}
+
+  \begin{block}{Position Sizing \& Timing}
+
+    \heading{Six Scaling Modes}
+    Signal strength $|s|$ maps to a scale factor controlling position size:
+    \[
+      \text{qty} = \left\lfloor \frac{\text{cash} \times \text{fraction} \times \text{scale}(|s|)}{\text{price}} \right\rfloor
+    \]
+
+    \begin{table}
+      \centering
+      \begin{tabular}{l l l}
+        \toprule
+        \textbf{Mode} & \textbf{Formula} & \textbf{Behavior} \\
+        \midrule
+        Flat       & $1.0$                           & Fixed size regardless of signal \\
+        Linear     & $|s|$                            & Proportional to signal strength \\
+        Log        & $\ln(1+|s|)/\ln 2$              & Concave---moderate scaling \\
+        Sqrt       & $\sqrt{|s|}$                     & Concave---penalizes weak signals less \\
+        Quadratic  & $|s|^2$                          & Convex---amplifies strong signals \\
+        Exponential & $(e^{|s|}-1)/(e-1)$            & Convex---aggressive at extremes \\
+        \bottomrule
+      \end{tabular}
+    \end{table}
+
+    \heading{Timing Control}
+    Five modes determine when trading begins within each market window:
+    \begin{itemize}
+      \item \textbf{Static conservative}: fixed 750s delay (last 2.5 min only)
+      \item \textbf{Volatility adaptive}: 300s (high vol) $\to$ 750s (low vol)
+      \item \textbf{Volatility aggressive}: 0s (high vol) $\to$ 600s (low vol)
+      \item \textbf{Always extended}: fixed 300s delay
+      \item \textbf{Volatility scaled}: continuous delay $= f(\text{volatility magnitude})$
+    \end{itemize}
+
+  \end{block}
+
+  \begin{block}{Evolutionary Parameter Optimization}
+
+    The system runs \textbf{dozens of parallel strategy instances} and uses an in-process evolutionary algorithm to improve them:
+
+    \begin{enumerate}
+      \item \textbf{Gen-1 Sweep} (53 instances, 5{,}447 trades): grid search over entry/exit thresholds, sizing modes, wallet counts, timing modes, and price guardrails.
+      \item \textbf{Selection}: top 7 performers all shared entry thresholds 0.68--0.75, exit 0.16--0.20, consensus $\geq 0.70$.
+      \item \textbf{Gen-2 Evolution} (30 containers, 5 families): HC-Lean mutations, HC-Bigger mutations, crossbreeds, timing variants, and exploratory configs.
+      \item \textbf{Auto-Evolver Daemon}: runs inside the sentinel every 20 minutes, identifies underperformers (PF $< 0.5$), blends them 70\% toward a PnL-weighted winning donor with 5\% jitter---workers hot-reload without restart.
+    \end{enumerate}
+
+  \end{block}
+
+  \begin{block}{Key Configurable Parameters}
+
+    \begin{table}
+      \centering
+      \small
+      \begin{tabular}{l c p{12cm}}
+        \toprule
+        \textbf{Parameter} & \textbf{Default} & \textbf{Description} \\
+        \midrule
+        \texttt{SIGNAL\_ENTRY\_THRESHOLD}   & 0.60    & Minimum $|$signal$|$ to open a position \\
+        \texttt{SIGNAL\_EXIT\_THRESHOLD}    & 0.30    & Signal weakness threshold to close \\
+        \texttt{PORTFOLIO\_FRACTION}        & 0.02    & Cash fraction per trade (no consensus) \\
+        \texttt{ALL\_AGREE\_FRACTION}       & 0.05    & Cash fraction per trade (full consensus) \\
+        \texttt{SIZING\_MODE}               & linear  & Signal$\to$size scaling function \\
+        \texttt{MIN\_WALLETS\_ENTRY}        & 5       & Minimum flagged wallets to generate signal \\
+        \texttt{MIN\_WALLET\_CONSENSUS}     & 0.55    & Fraction of wallets that must agree \\
+        \texttt{TRADE\_TIMING\_MODE}        & static\_conservative & When to trade within each market window \\
+        \texttt{PAPER\_MODE}                & true    & Paper (simulated) vs.\ live (real-money) \\
+        \bottomrule
+      \end{tabular}
+    \end{table}
+
+  \end{block}
+
+\end{column}
+
+\separatorcolumn
+
+% ============================================================
+% COLUMN 3 — Results, Analysis, Conclusion
+% ============================================================
+\begin{column}{\colwidth}
+
+  \begin{block}{Alert Classification \& Scoring Tiers}
+
+    \begin{table}
+      \centering
+      \begin{tabular}{c l l}
+        \toprule
+        \textbf{Score} & \textbf{Classification} & \textbf{Action Taken} \\
+        \midrule
+        0--20  & Normal     & No action \\
+        20--60 & Watchlist  & Logged for tracking \\
+        60--80 & Suspicious & Written to ranked CSV report \\
+        80--100 & \textbf{High Alert} & Discord notification + CSV + PostgreSQL \\
+        \bottomrule
+      \end{tabular}
+      \caption{Suspicion score tiers and automated responses.}
+    \end{table}
+
+  \end{block}
+
+  \begin{block}{Best-Performing Strategy Configurations (Gen-1)}
+
+    \begin{table}
+      \centering
+      \begin{tabular}{l r r r l}
+        \toprule
+        \textbf{Instance} & \textbf{PnL} & \textbf{Win\%} & \textbf{PF} & \textbf{Key Parameters} \\
+        \midrule
+        HC-Bigger        & +\$2.06 & 40\% & 2.26 & Entry=0.75, Exit=0.20, Wallets=8 \\
+        HC-Lean          & +\$1.90 & 43\% & 2.71 & Entry=0.72, Exit=0.18, Wallets=6 \\
+        HC-Relaxed       & +\$1.29 & 33\% & 1.67 & Entry=0.68, Exit=0.18, Wallets=7 \\
+        HC-Vol-Scaled    & +\$1.10 & 33\% & 1.56 & Entry=0.70, Exit=0.16, Vol-scaled \\
+        \bottomrule
+      \end{tabular}
+      \caption{Top configurations from 53-instance Gen-1 evolutionary sweep (5{,}447 trades).}
+    \end{table}
+
+    All high-conviction (HC) family members converged on: entry thresholds $\in [0.68, 0.75]$, exit $\in [0.16, 0.20]$, and consensus $\geq 0.70$---indicating a robust region in parameter space.
+
+    \begin{center}
+    \begin{tikzpicture}
+      \begin{axis}[
+        ybar,
+        bar width = 12pt,
+        width = 0.92\colwidth,
+        height = 7cm,
+        legend style = {at={(0.5,-0.20)}, anchor=north, legend columns=-1, font=\small},
+        symbolic x coords = {HC-Bigger, HC-Lean, HC-Relaxed, HC-VolScaled},
+        xtick = data,
+        x tick label style = {font=\small},
+        ylabel style = {font=\small},
+        ylabel = {Value},
+        ymin = 0, ymax = 3.2,
+        ytick = {0,0.5,1.0,1.5,2.0,2.5,3.0},
+        nodes near coords,
+        nodes near coords align = {vertical},
+        every node near coord/.style = {font=\footnotesize},
+      ]
+        \addplot+ coordinates {(HC-Bigger,2.06) (HC-Lean,1.90) (HC-Relaxed,1.29) (HC-VolScaled,1.10)};
+        \addplot+ coordinates {(HC-Bigger,2.26) (HC-Lean,2.71) (HC-Relaxed,1.67) (HC-VolScaled,1.56)};
+        \legend{Net PnL (\$), Profit Factor}
+      \end{axis}
+    \end{tikzpicture}
+    \end{center}
+
+  \end{block}
+
+  \begin{block}{System Architecture \& Technology}
+
+    \heading{Dual-Database Design}
+    \begin{itemize}
+      \item \textbf{DuckDB} (local analytical store): markets, trades, chain data, per-signal scores, wallet profiles.
+      \item \textbf{PostgreSQL 16} (persistent external store): top 77 flagged wallets per scan, audit trail, blacklisted false positives.
+    \end{itemize}
+
+    \heading{Pipeline Flow}
+    Fetch markets $\to$ Score insider viability $\to$ Fetch trades $\to$ Chain enrichment (PolygonScan USDC trace) $\to$ 12-signal analysis $\to$ Wallet profiling $\to$ Alert dispatch $\to$ PostgreSQL push.
+
+    \heading{Technology Stack}
+    Python 3.12/3.13, asyncio, NumPy, SciPy, Pandas, NetworkX, SQLAlchemy~2.0, DuckDB, PostgreSQL~16, Redis pub/sub, Flask, web3.py, Docker Compose, GitHub Actions (30-min CI/CD scans), 97+ unit tests.
+
+    \heading{Monte Carlo Validation}
+    Historical market windows are resampled with replacement to generate $N$ paths (default 1{,}000). Optional GPU acceleration via CuPy/CUDA vectorizes signal computation across all paths. Risk metrics: VaR, CVaR, Sharpe ratio, max drawdown distribution.
 
   \end{block}
 
   \begin{block}{Conclusion \& Future Work}
 
-
     \begin{itemize}
-      \item \textbf{Conclusion:}      
-      \item \textbf{Future Work:} 
+      \item \textbf{Limitations:}
+      \begin{itemize}
+        \item No IP-level data: VPN usage circumvents geography-based inference.
+        \item One-hop funding trace only; mixer/Tornado Cash obfuscation requires premium PolygonScan tier.
+        \item Pseudonymous on-chain addresses cannot be linked to real-world identities without additional investigation.
+        \item API format dependency: relies on Polymarket returning consistent \texttt{outcome}/\texttt{resolution\_value} fields.
+      \end{itemize}
+
+      \item \textbf{Conclusion:} We present a two-system pipeline that detects statistically anomalous trading behavior on Polymarket and converts those signals into automated trading decisions. The 12-signal composite scoring reliably identifies wallets with edge too consistent to be luck, and the evolutionary execution engine converges to profitable parameter regions (profit factor up to 2.71) with minimal human intervention. The Sentinel--Worker architecture enables zero-redundant-API-call scaling across dozens of parallel strategy instances.
+
+      \item \textbf{Future Work:}
+      \begin{itemize}
+        \item Multi-hop funding trace via premium PolygonScan API to defeat mixer/tornado cash obfuscation.
+        \item Graph neural network over wallet funding networks for deeper cluster detection.
+        \item Extend to non-crypto markets (politics, geopolitics) with longer time horizons.
+        \item Live-money deployment with risk controls and drawdown circuit breakers.
+        \item Integration with the Public Integrity Financial Prediction Act of 2026 regulatory framework.
+      \end{itemize}
     \end{itemize}
 
   \end{block}
