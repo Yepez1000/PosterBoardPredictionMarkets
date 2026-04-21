@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.3.8)  21 APR 2026 12:06
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.3.8)  21 APR 2026 12:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -875,21 +875,7 @@ Package: anyfontsize 2007/11/22 anyfontsize.sty by pts
 )
 \sepwidth=\skip89
 \colwidth=\skip90
- (./posterboard.aux
-
-./posterboard.aux:19: Package natbib Error: Bibliography not compatible with author-year citations.
-(natbib)                Press <return> to continue in numerical citation style.
-
-See the natbib package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.19 ...mand\NAT@force@numbers{}\NAT@force@numbers
-                                                  
-Check the bibliography entries for non-compliant syntax,
-or select author-year BibTeX style, e.g. plainnat
-
-)
+ (./posterboard.aux)
 \openout1 = `posterboard.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 74.
@@ -1014,15 +1000,11 @@ File: Brown_PM_Distributions_Evolution.png Graphic file (type bmp)
 File: Evol_15min_mkrsDistibition.png Graphic file (type bmp)
 <Evol_15min_mkrsDistibition.png>
 LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <24.88> not available
-(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 527.
+(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 531.
 LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <20.74> not available
-(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 527.
+(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 531.
 LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <17.28> not available
-(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 527.
-
-Overfull \vbox (102.3529pt too high) detected at line 527
- []
-
+(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 531.
 
 
 [1
@@ -1043,15 +1025,15 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `posterboard.out' has not changed.
-(rerunfilecheck)             Checksum: AEA4B6A8AE45636C75679C2F0DFA4493;93.
+(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 40355 strings out of 473832
- 974718 string characters out of 5729482
- 1686496 words of memory out of 5000000
- 62647 multiletter control sequences out of 15000+600000
+ 40342 strings out of 473832
+ 974524 string characters out of 5729482
+ 1680709 words of memory out of 5000000
+ 62634 multiletter control sequences out of 15000+600000
  595853 words of font info for 103 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  128i,19n,123p,732b,1679s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on posterboard.xdv (1 page, 99676 bytes).
+Output written on posterboard.xdv (1 page, 97156 bytes).
