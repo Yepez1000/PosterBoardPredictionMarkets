@@ -45,9 +45,9 @@
 % Title
 % ====================
 
-\title{Hybrid Alpha: Insider Detection \& Automated Trading in Prediction Markets}
+\title{Models for leveraging top wallets \& earnings convergence in prediction markets}
 
-\author{Edgar Yepez}
+\author{Edgar Yepez \& Max Leal}
 
 \institute[shortinst]{Department of Mathematics, Texas A\&M University}
 
@@ -55,10 +55,6 @@
 % Footer (optional)
 % ====================
 
-\footercontent{
-  \href{https://github.com/maxleal5/PolyMarketInsiders}{github.com/maxleal5/PolyMarketInsiders} \hfill
-  Texas A\&M University, 2026 \hfill
-  \href{https://github.com/maxleal5/Polymarket-Engine}{github.com/maxleal5/Polymarket-Engine}}
 % (can be left out to remove footer)
 
 % ====================
@@ -172,13 +168,13 @@
 
 
 
-    \begin{block}{Hybrid Alpha System: Overview}
+    \begin{block}{Model I: Crypto 5 minute markets}
       % \heading{The Maduro Case (2026)}
       % A newly-created wallet placed a \$30{,}000 bet on Nicolás Maduro's removal---hours before the Trump administration's operation---netting \textbf{\$400{,}000}. This pattern demands automated, systematic scrutiny.
       %
       \heading{Two-System Pipeline}
       \begin{enumerate}
-        \item \textbf{System I (PolyMarketInsiders):} Detects wallets with repeatable alpha using 12 quantitative signals, composite suspicion scoring (0--100).
+        \item \textbf{System I (PolyMarketTopWallet):} Detects wallets with repeatable alpha using 12 quantitative signals, composite suspicion scoring (0--100).
         \item \textbf{System II (Polymarket Engine):} Trades short-duration crypto markets (5-min on Polymarket) using flagged wallet signals via evolutionary parameter optimization.
       \end{enumerate}
 
@@ -200,8 +196,8 @@
           Equity Curve Quality (7\%) & Sharpe-like ratio $\times (1 - \text{max drawdown})$; steady upward PnL \\
           Fund-to-Trade Gap (6\%) & Funded then traded: $<$1h (extreme), 1--6h (high), 6--24h (moderate) \\
           Position Flip (6\%) & Last-minute correct side-switch with larger position \\
-          Market Concentration (6\%) & Low category entropy + high fraction of insider-viable markets \\
-          Insider Network Link (6\%) & Wallet connected to known watchlist wallets (3-tier scoring) \\
+          Market Concentration (6\%) & Low category entropy + high fraction of information dependent markets \\
+          Network Link (6\%) & Wallet connected to known watchlist wallets (3-tier scoring) \\
           Order Size Drift (4\%) & Pre-resolution trade $> 4\times$ rolling average size \\
           Network Propagation (3\%) & Funding source is itself a flagged wallet \\
           Consecutive Win Streak (2\%) & $\geq$5 consecutive wins on underdog-side entries \\
@@ -232,7 +228,7 @@
   %   \begin{enumerate}
   %     \setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}
   %     \item Fetch viable markets (Polymarket Gamma API)
-  %     \item Score insider viability per market (0--1 scale)
+  %     \item Score viability per market (0--1 scale)
   %     \item Fetch all trades for high-viability markets
   %     \item On-chain enrichment via PolygonScan USDC trace
   %     \item Compute 12 anomaly signals per wallet
@@ -258,7 +254,7 @@
     \begin{itemize}
         \item $p \in [0, 1]$ : Price in dollars
         \item $n$ : Number of wallets in current market
-        \item $W \in [0, 100]$ : Wallet's insider score
+        \item $W \in [0, 100]$ : Wallet's score
         \item $\text{Pos}$ : Position size (number of shares)
         \item $dir \in \{-1, 1\}$ : Trade direction ($-1$ for short, $+1$ for long)
     \end{itemize}
@@ -298,7 +294,7 @@
     Given the portfolio risk fraction ($\gamma$) and the consensus signal ($s$), the number of shares to purchase is:
 
     \[
-      \text{qty} = \left\lfloor \frac{\text{cash} \times \gamma \times |s|}{\text{price}} \right\rfloor
+      \text{shares} = \left\lfloor \frac{\text{cash} \times \gamma \times |s|}{\text{price}} \right\rfloor
     \]
     where $s$ is the normalized signal from the wallet consensus calculation, with magnitude $|s| \in [0, 1]$.
 
@@ -486,8 +482,8 @@ where $\sum_{i=1}^{3} w_i = 1$. Currently, weights are initialized equally: $w_1
     \textbf{Model I: Wallet Consensus Signals}
     \begin{itemize}
       \item $p$ : Price of security in $[0,1]$ (implied probability)
-      \item $n$ : Number of tracked insider wallets in current market
-      \item $W_i$ : Insider score of wallet $i$ (0--100 scale)
+      \item $n$ : Number of tracked wallets in current market
+      \item $W_i$ : Score of wallet $i$ (0--100 scale)
       \item $\text{Pos}_i$ : Position size of wallet $i$ (number of shares)
       \item $\text{dir}_i$ : Trade direction of wallet $i$ ($-1$ for short, $+1$ for long)
       \item $\text{Signal}$ : Consensus score over tracked wallets; ranges in $[-1, 1]$
