@@ -326,7 +326,7 @@
       \item \textbf{Gen-1 Sweep} (53 instances, 5{,}447 trades): grid search over entry/exit thresholds, sizing modes, wallet counts, timing modes.
       \item \textbf{Selection}: top 7 performers converged on entry 0.68--0.75, exit 0.16--0.20, consensus $\geq 0.70$.
       \item \textbf{Gen-2 Evolution} (30 containers, 5 families): HC-Lean mutations, HC-Bigger mutations, crossbreeds, timing variants.
-      \item \textbf{Auto-Evolver Daemon}: runs every 20 minutes, identifies underperformers (PF $< 0.5$), blends them 70\% toward PnL-weighted winning donor with 5\% jitterworkers hot-reload without restart.
+      \item \textbf{Auto-Evolver Daemon}: runs every 20 minutes, identifies underperformers (PF $< 0.5$), blends them 70\% toward PnL-weighted winning donor with 5\% entropy. 
     \end{enumerate}
 
   \end{block}  
@@ -348,7 +348,7 @@
         \end{itemize}
       \end{column}
       \begin{column}{0.48\linewidth}
-        \[ x_1 = 2(p - 0.5) \cdot \max\!\left( \tfrac{\log_{10}(V)}{5}, 1 \right) \]
+        \[ x_1 = 2(p - 0.5) \cdot \min\!\left( \tfrac{\log_{10}(V)}{5}, 1 \right) \]
         \[ x_2 = \min\!\left(\max\!\left(\tfrac{S_{pct}}{20}, 1\right), -1\right) \]
         \[ x_3 = \frac{A_{rec} - 3}{2} \]
       \end{column}
