@@ -45,9 +45,9 @@
 % Title
 % ====================
 
-\title{Hybrid Alpha: Insider Detection \& Automated Trading in Prediction Markets}
+\title{Models for leveraging top wallets \& earnings convergence in prediction markets}
 
-\author{Edgar Yepez, Max Leal}
+\author{Edgar Yepez \& Max Leal}
 
 \institute[shortinst]{Department of Mathematics, Texas A\&M University}
 
@@ -55,11 +55,10 @@
 % Footer (optional)
 % ====================
 
-% \footercontent{
-%   % \href{https://github.com/maxleal5/PolyMarketInsiders}{github.com/maxleal5/PolyMarketInsiders} \hfill
-%   Texas A\&M University, 2026 \hfill
-%   % \href{https://github.com/maxleal5/Polymarket-Engine}{github.com/maxleal5/Polymarket-Engine}
-%   }
+\footercontent{
+  \href{https://github.com/maxleal5/PolyMarketInsiders}{github.com/maxleal5/PolyMarketInsiders} \hfill
+  Texas A\&M University, 2026 \hfill
+  \href{https://github.com/maxleal5/Polymarket-Engine}{github.com/maxleal5/Polymarket-Engine}}
 % (can be left out to remove footer)
 
 % ====================
@@ -173,13 +172,13 @@
 
 
 
-    \begin{block}{Hybrid Alpha System: Overview}
+    \begin{block}{Model I: Crypto 5 minute markets}
       % \heading{The Maduro Case (2026)}
       % A newly-created wallet placed a \$30{,}000 bet on Nicolás Maduro's removal---hours before the Trump administration's operation---netting \textbf{\$400{,}000}. This pattern demands automated, systematic scrutiny.
       %
       \heading{Two-System Pipeline}
       \begin{enumerate}
-        \item \textbf{System I (PolyMarketInsiders):} Detects wallets with repeatable alpha using 12 quantitative signals, composite suspicion scoring (0--100).
+        \item \textbf{System I (PolyMarketTopWallet):} Detects wallets with repeatable alpha using 12 quantitative signals, composite suspicion scoring (0--100).
         \item \textbf{System II (Polymarket Engine):} Trades short-duration crypto markets (5-min on Polymarket) using flagged wallet signals via evolutionary parameter optimization.
       \end{enumerate}
 
@@ -195,15 +194,14 @@
           \toprule
           \textbf{Signal} & \textbf{Detection Logic} \\
           \midrule
-          Profit Factor (38\%) & $\text{gross\_wins} / \text{gross\_losses} > 2.5$ over $\geq$10 trades \\
-          % Pre-Resolution Spike (13\%) & $z$-score $> 3.0$ vs.\ 90-day baseline in 24h before resolution \\
-          New Wallet + Large Bet (12\%) & First-ever trade $>$ \$500 on viable market within 30 days \\
-          Equity Curve Quality (10\%) & Sharpe-like ratio $\times (1 - \text{max drawdown})$; steady upward PnL \\
-          Fund-to-Trade Gap (9\%) & Funded then traded: $<$1h (extreme), 1--6h (high), 6--24h (moderate) \\
-          Position Flip (8\%) & Last-minute correct side-switch with larger position \\
-          Market Concentration (6\%) & Low category entropy + high fraction of insider-viable markets \\
-          Insider Network Link (5\%) & Wallet connected to known watchlist wallets (3-tier scoring) \\
-          % Win Rate Anomaly (5\%) & Binomial test: win rate $> 65\%$, $p < 0.05$ \\
+          Profit Factor (28\%) & $\text{PF} = \text{gross\_wins} / \text{gross\_losses} > 2.5$ over $\geq$10 trades (PF $= \infty$ if gross\_losses $= 0$) \\
+          Pre-Resolution Spike (18\%) & $z$-score $> 3.0$ vs.\ 90-day baseline in 24h before resolution \\
+          New Wallet + Large Bet (10\%) & First-ever trade $>$ \$500 on viable market within 30 days \\
+          Equity Curve Quality (7\%) & Sharpe-like ratio $\times (1 - \text{max drawdown})$; steady upward PnL \\
+          Fund-to-Trade Gap (6\%) & Funded then traded: $<$1h (extreme), 1--6h (high), 6--24h (moderate) \\
+          Position Flip (6\%) & Last-minute correct side-switch with larger position \\
+          Market Concentration (6\%) & Low category entropy + high fraction of information dependent markets \\
+          Network Link (6\%) & Wallet connected to known watchlist wallets (3-tier scoring) \\
           Order Size Drift (4\%) & Pre-resolution trade $> 4\times$ rolling average size \\
           Network Propagation (4\%) & Funding source is itself a flagged wallet \\
           Consecutive Win Streak (4\%) & $\geq$5 consecutive wins on underdog-side entries \\
@@ -234,7 +232,7 @@
   %   \begin{enumerate}
   %     \setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}
   %     \item Fetch viable markets (Polymarket Gamma API)
-  %     \item Score insider viability per market (0--1 scale)
+  %     \item Score viability per market (0--1 scale)
   %     \item Fetch all trades for high-viability markets
   %     \item On-chain enrichment via PolygonScan USDC trace
   %     \item Compute 12 anomaly signals per wallet
@@ -298,12 +296,13 @@
       \end{tabular}
     \end{table}
 
-    \heading{Position Sizing Modes}
-    \textbf{portfolio risk fraction} ($\gamma$):
+    \heading{Position Sizing}
+    Given the portfolio risk fraction ($\gamma$) and the consensus signal ($s$), the number of shares to purchase is:
 
     \[
-      \text{qty} = \left\lfloor \frac{\text{cash} \times \gamma \times \hat{|s|}}{\text{price}} \right\rfloor
+      \text{shares} = \left\lfloor \frac{\text{cash} \times \gamma \times |s|}{\text{price}} \right\rfloor
     \]
+    where $s$ is the normalized signal from the wallet consensus calculation, with magnitude $|s| \in [0, 1]$.
 
     % Six scaling modes: Flat, Linear, Log, Sqrt, Quadratic, Exponential.
 
@@ -409,19 +408,21 @@
 
     \textbf{2. Execution Logic (Binary)}
     A trade is initiated \textbf{if and only if} all signals show total directional consensus:
-    \[ \text{Condition: } (x_1, x_2, x_3) > 0 \quad \text{or} \quad (x_1, x_2, x_3) < 0 \]
-    Each component is bounded such that $x_i \in [-1, 1]$.
+    \[ \text{Condition: } \text{sgn}(x_1) = \text{sgn}(x_2) = \text{sgn}(x_3) \neq 0 \]
+    That is, all three components must have the same sign (all positive or all negative). Each component is bounded such that $x_i \in [-1, 1]$.
 
     \textbf{3. Portfolio Allocation \& Risk Management ($\Phi$)}
     If the execution condition is met, the allocation $\Phi$ (fraction of total portfolio) is determined by scaling the signal by the \textbf{portfolio risk fraction} ($\gamma$):
     \[ \Phi = \gamma \cdot \left( \sum_{i=1}^{3} w_i x_i \right), \quad \gamma \in (0, 1] \]
-where $\sum_{i=1}^{3} w_i = 1$.
+where $\sum_{i=1}^{3} w_i = 1$. Currently, weights are initialized equally: $w_1 = w_2 = w_3 = \frac{1}{3}$ (optimization pending).
     The component consensus acts as the \textit{execution gate}, while the magnitude of $\Phi$ determines the \textit{capital commitment}.
 
   \end{block}
 
   \begin{block}{Results}
     Polymarket introduced dedicated earnings contracts in September 2025, therefore the backtest period for the earnings model is limited to Q4 2025. The model only traded 9 stocks out of 500. 
+    
+    \small{\textit{Note: Sharpe ratio calculated on trade-level returns as } $\frac{\mu(r)}{\sigma(r)}$\textit{, where } $r$ \textit{is individual trade return and risk-free rate = 0.}} 
 
     \begin{columns}[t]
       \begin{column}{0.45\linewidth}
