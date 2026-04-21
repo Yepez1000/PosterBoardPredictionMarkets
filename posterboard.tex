@@ -195,14 +195,13 @@
           \textbf{Signal} & \textbf{Detection Logic} \\
           \midrule
           Profit Factor (28\%) & $\text{PF} = \text{gross\_wins} / \text{gross\_losses} > 2.5$ over $\geq$10 trades (PF $= \infty$ if gross\_losses $= 0$) \\
-          Pre-Resolution Spike (13\%) & $z$-score $> 3.0$ vs.\ 90-day baseline in 24h before resolution \\
+          Pre-Resolution Spike (18\%) & $z$-score $> 3.0$ vs.\ 90-day baseline in 24h before resolution \\
           New Wallet + Large Bet (10\%) & First-ever trade $>$ \$500 on viable market within 30 days \\
           Equity Curve Quality (7\%) & Sharpe-like ratio $\times (1 - \text{max drawdown})$; steady upward PnL \\
           Fund-to-Trade Gap (6\%) & Funded then traded: $<$1h (extreme), 1--6h (high), 6--24h (moderate) \\
           Position Flip (6\%) & Last-minute correct side-switch with larger position \\
           Market Concentration (6\%) & Low category entropy + high fraction of insider-viable markets \\
           Insider Network Link (6\%) & Wallet connected to known watchlist wallets (3-tier scoring) \\
-          Win Rate Anomaly (5\%) & Binomial test: win rate $> 65\%$, $p < 0.05$ \\
           Order Size Drift (4\%) & Pre-resolution trade $> 4\times$ rolling average size \\
           Network Propagation (3\%) & Funding source is itself a flagged wallet \\
           Consecutive Win Streak (2\%) & $\geq$5 consecutive wins on underdog-side entries \\
@@ -259,7 +258,7 @@
     \begin{itemize}
         \item $p \in [0, 1]$ : Price in dollars
         \item $n$ : Number of wallets in current market
-        \item $W_{\text{score}} \in [0, 100]$ : Wallet's insider score
+        \item $W \in [0, 100]$ : Wallet's insider score
         \item $\text{Pos}$ : Position size (number of shares)
         \item $dir \in \{-1, 1\}$ : Trade direction ($-1$ for short, $+1$ for long)
     \end{itemize}
@@ -267,7 +266,7 @@
 
 
     \[
-      \text{Signal} = \frac{\sum_{i=1}^{n} (W_{score}_i \cdot \text{Pos}_i \cdot p \cdot \text{dir}_i)}{\sum_{i=1}^{n} |W_{score}_i \cdot \text{Pos}_i \cdot p|}
+      \text{Signal} = \frac{\sum_{i=1}^{n} (W_{i} \cdot \text{Pos}_i \cdot p \cdot \text{dir}_i)}{\sum_{i=1}^{n} |W_{i} \cdot \text{Pos}_i \cdot p|}
     \]
 
 
@@ -389,8 +388,8 @@
 
     \textbf{3. Portfolio Allocation \& Risk Management ($\Phi$)}
     If the execution condition is met, the allocation $\Phi$ (fraction of total portfolio) is determined by scaling the signal by the \textbf{portfolio risk fraction} ($\gamma$):
-    \[ \Phi = \gamma \cdot \left( \sum{i=1}^{3} w_i x_i \right), \quad \gamma \in (0, 1] \]
-where $\sum{i=1}^{3} w_i = 1$. Currently, weights are initialized equally: $w_1 = w_2 = w_3 = \frac{1}{3}$ (optimization pending).
+    \[ \Phi = \gamma \cdot \left( \sum_{i=1}^{3} w_i x_i \right), \quad \gamma \in (0, 1] \]
+where $\sum_{i=1}^{3} w_i = 1$. Currently, weights are initialized equally: $w_1 = w_2 = w_3 = \frac{1}{3}$ (optimization pending).
     The component consensus acts as the \textit{execution gate}, while the magnitude of $\Phi$ determines the \textit{capital commitment}.
 
   \end{block}
@@ -488,7 +487,7 @@ where $\sum{i=1}^{3} w_i = 1$. Currently, weights are initialized equally: $w_1 
     \begin{itemize}
       \item $p$ : Price of security in $[0,1]$ (implied probability)
       \item $n$ : Number of tracked insider wallets in current market
-      \item $W_{score}_i$ : Insider score of wallet $i$ (0--100 scale)
+      \item $W_i$ : Insider score of wallet $i$ (0--100 scale)
       \item $\text{Pos}_i$ : Position size of wallet $i$ (number of shares)
       \item $\text{dir}_i$ : Trade direction of wallet $i$ ($-1$ for short, $+1$ for long)
       \item $\text{Signal}$ : Consensus score over tracked wallets; ranges in $[-1, 1]$
