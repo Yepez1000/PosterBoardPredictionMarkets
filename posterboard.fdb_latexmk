@@ -1,10 +1,10 @@
 # Fdb version 4
-["xdvipdfmx"] 1776734095.66995 "posterboard.xdv" "posterboard.pdf" "posterboard" 1776734099.36937 0
-  "posterboard.xdv" 1776734095.61456 118324 1dce49c1a19f238b26bbe82e470ec58c "xelatex"
+["xdvipdfmx"] 1776791046.72607 "posterboard.xdv" "posterboard.pdf" "posterboard" 1776791215.78434 0
+  "posterboard.xdv" 1776791217.50997 99676 62c866c140359fcba8651a46add02ec3 "xelatex"
   (generated)
   "posterboard.pdf"
   (rewritten before read)
-["xelatex"] 1776734094.10156 "posterboard.tex" "posterboard.xdv" "posterboard" 1776734099.36686 0
+["xelatex"] 1776791215.80138 "posterboard.tex" "posterboard.xdv" "posterboard" 1776791217.57217 2
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/zapfding/pzdr.tfm" 1136768653 1528 f853c4d1b4e0550255e02831fdc8496f ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
@@ -17,12 +17,14 @@
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm" 1246382020 940 228d6584342e91276bf566bcf9716b83 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmex10.tfm" 1136768653 992 662f679a0b3d2d53c1b94050fdaa3f50 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/lm/ec-lmss10.tfm" 1254269338 11176 53ebf7a171df1f9447b387b178768bb5 ""
+  "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/lm/lmmi10.tfm" 1148093231 1528 6d36b2385e0ca062a654de6ac59cb34f ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/lm/lmmi12.tfm" 1148093231 1524 753b192b18f2991794f9d41a8228510b ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/lm/lmmi6.tfm" 1148093231 1512 94a3fd88c6f27dbd9ecb46987e297a4e ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/lm/lmmi8.tfm" 1148093231 1520 a3fe5596932db2db2cbda300920dd4e9 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/lm/lmsy10.tfm" 1148093231 1308 02cc510f9dd6012e5815d0c0ffbf6869 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/lm/lmsy6.tfm" 1148093231 1300 b0605d44c16c22d99dc001808e4f24ea ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/lm/lmsy8.tfm" 1148093231 1304 cdc9a17df9ef0d2dc320eff37bbab1c4 ""
+  "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/lm/rm-lmr10.tfm" 1254269338 11868 4f81e9b6033c032bdaf9884f4d7ef412 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/lm/rm-lmr12.tfm" 1254269338 11888 6841b91e46b65cf41a49b160e6e74130 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/lm/rm-lmr17.tfm" 1254269338 11948 fa976674f030491ad35532a8a1e37325 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/lm/rm-lmr6.tfm" 1254269338 11836 e3b6ce3e601aec94f64a536e7f4224d5 ""
@@ -287,10 +289,10 @@
   "Evol_15min_mkrsDistibition.png" 1776664592.01756 176495 b0555d4a358102addeeef32e93b0ff9c ""
   "beamercolorthemetamu.sty" 1776464773.36577 1577 3995b6228951e5db8e5a3ef0795921ee ""
   "beamerthemegemini.sty" 1776464868.30062 6941 7a8aa94be96d999be2570cb05fc296d8 ""
-  "posterboard.aux" 1776734095.61118 734 2d781c2d6403c2db5c2d2ff5157ac52c "xelatex"
-  "posterboard.nav" 1776734095.61406 395 640a03f4d3f0f705896c1d8375ddfa75 "xelatex"
-  "posterboard.out" 1776734095.33688 0 d41d8cd98f00b204e9800998ecf8427e "xelatex"
-  "posterboard.tex" 1776734092.24408 19941 ec517e659431424fd0c15f22e3035b09 ""
+  "posterboard.aux" 1776791217.5088 898 803cf19f16c40b8fa067d67f50a034d0 "xelatex"
+  "posterboard.nav" 1776791217.50991 485 8ad38786aae60a3e64b30504fae6b5b9 "xelatex"
+  "posterboard.out" 1776791217.50967 93 aea4b6a8ae45636c75679c2f0dfa4493 "xelatex"
+  "posterboard.tex" 1776791213.99622 20398 36dcce9446ab939c982f8e8ac2e8a3c9 ""
   (generated)
   "posterboard.aux"
   "posterboard.log"

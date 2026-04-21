@@ -420,51 +420,85 @@ where $\sum_{i=1}^{3} w_i = 1$. Currently, weights are initialized equally: $w_1
   \end{block}
 
   \begin{block}{Results}
-    Polymarket introduced dedicated earnings contracts in September 2025, therefore the backtest period for the earnings model is limited to Q4 2025. The model only traded 9 stocks out of 500. 
+    Polymarket introduced dedicated earnings contracts in September 2025, therefore the backtest period for the earnings model is limited to Q4 2025. The model only traded 8 stocks out of 565. 
     
     \small{\textit{Note: Sharpe ratio calculated on trade-level returns as } $\frac{\mu(r)}{\sigma(r)}$\textit{, where } $r$ \textit{is individual trade return and risk-free rate = 0.}} 
 
     \begin{columns}[t]
-      \begin{column}{0.45\linewidth}
-        \textbf{Performance Summary}
-        \begin{table}
-          \centering
-          \begin{tabular}{l r}
-            \toprule
-            \textbf{Metric} & \textbf{Value} \\
-            \midrule
-            Total Realized PnL & \$350.80 \\
-            Winning Trades & 7 / 9 \\
-            \textbf{Win Rate} & \textbf{77.78\%} \\
-            Long Win Rate & 100\% \\
-            Short Win Rate & 75\% \\
-            \textbf{Sharpe Ratio} & \textbf{2.2642} \\
-            \bottomrule
-          \end{tabular}
-        \end{table}
-      \end{column}
+      \begin{column}{1.0\linewidth}
+         \textbf{Performance Summary}
+          \begin{table}
+            \centering
+            \begin{tabular}{l r}
+              \toprule
+              \textbf{Metric} & \textbf{Value} \\
+              \midrule
+              Starting Cash & \$10,000.00 \\
+              Final Net Worth & \$10,121.56 \\
+              Total Realized PnL & \$121.56 \\
+              Total Closed Trades & 8 \\
+              Winning Trades & 6 / 8 \\
+              \textbf{Win Rate} & \textbf{75.00\%} \\
+              Short Win Rate & 75.00\% \\
+              \textbf{Annualized Sharpe Ratio} & \textbf{1.84} \\
+              \bottomrule
+            \end{tabular}
+          \end{table}
+          \vspace{0.1cm}
+          \small{\textit{Sharpe Ratio = Per-trade Sharpe (0.354) $\times \sqrt{N}$, where $N \approx 27.06$ trades/year}}
+          \small{\textit{(Nov 7, 2025 -- Feb 23, 2026: 108 days, 8 trades $\Rightarrow$ 27.06 annualized frequency)}}
+        \end{column}
 
-      \begin{column}{0.55\linewidth}
-        \textbf{Sample Strategy Executions}
-        \begin{table}
-          \centering
-          \begin{tabular}{l c c r}
-            \toprule
-            \textbf{Ticker} & \textbf{Type} & \textbf{Entry} & \textbf{Return} \\
-            \midrule
-            COIN & Short & \$162.56 & +13.2\% \\
-            WYNN & Short & \$117.25 & +8.0\% \\
-            SUN  & Long  & \$57.65  & +4.9\% \\
-            DEFT & Short & \$1.51   & -16.1\% \\
-            \bottomrule
-          \end{tabular}
-        \end{table}
-      \end{column}
+      % \begin{column}{1.0\linewidth}
+      %    \textbf{Sample Strategy Executions}
+      %    \vspace{0.1cm}
+      %    \tiny
+      %    \begin{table}
+      %      \centering
+      %      \begin{tabular}{l c r r r r r r r}
+      %        \toprule
+      %        \textbf{Ticker} & \textbf{Dates} & \textbf{Type} & \textbf{Entry} & \textbf{Exit} & \textbf{Return} & \textbf{PnL} & \textbf{Analyst Rec} & \textbf{Final Score} \\
+      %        \midrule
+      %        COIN & 2/10--2/12 & Short & \$162.56 & \$141.09 & +13.2\% & \$70.22 & 2.36 & -0.387 \\
+      %        DASH & 2/5--2/12 & Short & \$192.51 & \$161.17 & +16.3\% & \$84.01 & 1.78 & -0.367 \\
+      %        WYNN & 2/11--2/12 & Short & \$117.25 & \$107.85 & +8.0\% & \$43.19 & 1.5 & -0.398 \\
+      %        FNF & 2/10--2/19 & Short & \$56.63 & \$52.13 & +7.9\% & \$51.89 & 1.0 & -0.405 \\
+      %        TKO & 2/23 & Short & \$210.00 & \$205.95 & +1.9\% & \$13.79 & 1.75 & -0.407 \\
+      %        LZB & 11/12--11/18 & Short & \$31.41 & \$29.59 & +5.8\% & \$50.48 & 1.0 & -0.463 \\
+      %        DEFT & 11/7--11/10 & Short & \$1.51 & \$1.76 & -16.1\% & -\$97.51 & 2.0 & -0.385 \\
+      %        FRO & 11/11--11/21 & Short & \$24.24 & \$25.90 & -6.8\% & -\$94.52 & 1.0 & -0.523 \\
+      %        \bottomrule
+      %      \end{tabular}
+      %    \end{table}
+      %    \vspace{0.05cm}
+      %    \tiny{\textit{All trades: ESP Surprise \& Poly Price signals triggered entries. Win Rate: 75\% (6/8 profitable)}}
+      %  \end{column}
     \end{columns}
 
   \end{block}
 
-
+  \begin{block}{Sample Strategy Executions}
+    \footnotesize
+    \begin{table}
+      \centering
+      \begin{tabular}{l c r r r r r r r r r}
+        \toprule
+        \textbf{Ticker} & \textbf{Dates} & \textbf{Type} & \textbf{Entry} & \textbf{Exit} & \textbf{Return} & \textbf{Poly Price} & \textbf{Volume} & \textbf{ESP} & \textbf{Analyst Rec} & \textbf{Score} \\
+        \midrule
+        COIN & 2/10--2/12 & Short & \$162.56 & \$141.09 & +13.2\% & 0.145 & 102,737 & -11.675 & 2.36 & -0.387 \\
+        DASH & 2/5--2/12 & Short & \$192.51 & \$161.17 & +16.3\% & 0.18 & 34,662 & -0.647 & 1.78 & -0.367 \\
+        WYNN & 2/11--2/12 & Short & \$117.25 & \$107.85 & +8.0\% & 0.265 & 8,427 & -2.376 & 1.5 & -0.398 \\
+        FNF & 2/10--2/19 & Short & \$56.63 & \$52.13 & +7.9\% & 0.495 & 4,268 & -0.389 & 1.0 & -0.405 \\
+        TKO & 2/23 & Short & \$210.00 & \$205.95 & +1.9\% & 0.21 & 3,324 & -7.535 & 1.75 & -0.407 \\
+        LZB & 11/12--11/18 & Short & \$31.41 & \$29.59 & +5.8\% & 0.375 & 5,669 & -2.562 & 1.0 & -0.463 \\
+        DEFT & 11/7--11/10 & Short & \$1.51 & \$1.76 & -16.1\% & 0.365 & 9,009 & -14.267 & 2.0 & -0.385 \\
+        FRO & 11/11--11/21 & Short & \$24.24 & \$25.90 & -6.8\% & 0.445 & 17,905 & -10.441 & 1.0 & -0.523 \\
+        \bottomrule
+      \end{tabular}
+    \end{table}
+    \vspace{0.05cm}
+    \footnotesize{\textit{Poly Price = market probability | Volume = trading volume | ESP = SmartEstimate Surprise | Score = Final convergence signal}}
+  \end{block}
 
   \begin{block}{Future Work}
 
@@ -480,14 +514,10 @@ where $\sum_{i=1}^{3} w_i = 1$. Currently, weights are initialized equally: $w_1
 
   \end{block}
 
-  \begin{block}{References}
-
-
-    \heading{}
-    \begin{itemize}
-      \item G. Berkolaiko, \textit{Undergraduate Introduction to Mathematics of Option Pricing}.
-    \end{itemize}
-
+\begin{block}{References}
+    \begin{thebibliography}{9}
+    \bibitem{berkolaiko} G. Berkolaiko, \textit{Undergraduate Introduction to Mathematics of Option Pricing}.
+    \end{thebibliography}
   \end{block}
 
 \end{column}
