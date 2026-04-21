@@ -228,22 +228,22 @@
 
 
 
-  \begin{block}{Pipeline Steps}
-
-    \begin{enumerate}
-      \setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}
-      \item Fetch viable markets (Polymarket Gamma API)
-      \item Score insider viability per market (0--1 scale)
-      \item Fetch all trades for high-viability markets
-      \item On-chain enrichment via PolygonScan USDC trace
-      \item Compute 12 anomaly signals per wallet
-      \item Build wallet behavioral profiles (PnL, win rate, streaks)
-      \item Dispatch alerts: Discord webhook (score $\geq 80$), CSV report (score $\geq 15$)
-      \item Persist top-77 flagged wallets to PostgreSQL
-    \end{enumerate}
-
-  \end{block}
-
+  % \begin{block}{Pipeline Steps}
+  %
+  %   \begin{enumerate}
+  %     \setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}
+  %     \item Fetch viable markets (Polymarket Gamma API)
+  %     \item Score insider viability per market (0--1 scale)
+  %     \item Fetch all trades for high-viability markets
+  %     \item On-chain enrichment via PolygonScan USDC trace
+  %     \item Compute 12 anomaly signals per wallet
+  %     \item Build wallet behavioral profiles (PnL, win rate, streaks)
+  %     \item Dispatch alerts: Discord webhook (score $\geq 80$), CSV report (score $\geq 15$)
+  %     \item Persist top-77 flagged wallets to PostgreSQL
+  %   \end{enumerate}
+  %
+  % \end{block}
+  %
   \begin{block}{System II: Execution Engine (Polymarket Engine)}
 
     % The Engine consumes flagged wallets and trades short-duration markets using a \textbf{Sentinel--Worker} architecture:
@@ -253,18 +253,32 @@
     %   \item \textbf{Workers} ($N$ parallel instances): subscribe to Redis, each running independent strategy configs with unique parameter DNA.
     % \end{itemize}
     %
-    \heading{Weighted Insider Signal}
+    \heading{Weighted Wallet Signal}
+
+
+    \begin{itemize}
+        \item $p \in [0, 1]$ : Price in dollars
+        \item $n$ : Number of wallets in current market
+        \item $W_{\text{score}} \in [0, 100]$ : Wallet's insider score
+        \item $\text{Pos}$ : Position size (number of shares)
+        \item $dir \in \{-1, 1\}$ : Trade direction ($-1$ for short, $+1$ for long)
+    \end{itemize}
+
+
 
     \[
-      Signal = \sum_{i=0}^n\frac{W_{score}*Pos *Price * dir}{W_{score}*Pos *Price}  
+      Signal = \sum_{i=0}^n\frac{W_{score}*Pos * p * dir}{W_{score}*Pos * p}  
     \]
 
 
-    \[
-      dir \in \{-1, 1\}, W_{score} \in [0,100], Pos \in \mathbb{R}^+, Price \in [0,1]
-    \]
 
     \heading{Entry \& Exit Rules}
+
+    \begin{itemize}
+      \item $\theta_{\text{entry}}$ : Minimum signal magnitude to enter a trade 
+      \item $\theta_{\text{exit}}$ : Signal magnitude threshold to exit a trade (weakened signal)
+    \end{itemize}
+
     \begin{table}
       \centering
       \small
@@ -282,11 +296,13 @@
     \end{table}
 
     \heading{Position Sizing Modes}
+    \textbf{portfolio risk fraction} ($\gamma$):
+
     \[
-      \text{qty} = \left\lfloor \frac{\text{cash} \times \text{fraction} \times \text{scale}(|s|)}{\text{price}} \right\rfloor
+      \text{qty} = \left\lfloor \frac{\text{cash} \times \gamma \times \hat{|s|}}{\text{price}} \right\rfloor
     \]
 
-    Six scaling modes: Flat, Linear, Log, Sqrt, Quadratic, Exponential.
+    % Six scaling modes: Flat, Linear, Log, Sqrt, Quadratic, Exponential.
 
     % \heading{Timing Control}
     % Five modes determine when trading begins within each market window:
@@ -305,10 +321,10 @@
 
     \textbf{1. Signal Normalization ($x_i$)}
     \begin{itemize}
-      \item \textbf{Polymarket Momentum ($x_1$):} $p \in [0,1]$ is normalized and scaled by logarithmic liquidity $V$:
+      \item \textbf{Polymarket Price($x_1$):} $p \in [0,1]$ is normalized and scaled by logarithmic liquidity $V$:
       \[ x_1 = 2(p - 0.5) \cdot \max\left( \frac{\log_{10}(V)}{5}, 1 \right) \]
       \item \textbf{SmartEstimate Surprise ($x_2$):} The Refinitiv StarMine percentage surprise $S_{pct}$ is normalized over a 20\% threshold:
-      \[ x_2 = \min\left(\max\left(\frac{S_{pct}}{20}, -1\right), 1\right) \]
+      \[ x_2 = \min\left(\max\left(\frac{S_{pct}}{20}, 1\right), -1\right) \]
       \item \textbf{Analyst Sentiment ($x_3$):} Rescales mean recommendations $A_{rec} \in [1,5]$:
       \[ x_3 = \frac{A_{rec} - 3}{2} \]
     \end{itemize}
@@ -371,8 +387,9 @@
     Each component is bounded such that $x_i \in [-1, 1]$.
 
     \textbf{3. Portfolio Allocation \& Risk Management ($\Phi$)}
-    If the execution condition is met, the allocation $\Phi$ (fraction of total portfolio) is determined by scaling the signal by the \textbf{Portfolio Risk Fraction} ($\gamma$):
+    If the execution condition is met, the allocation $\Phi$ (fraction of total portfolio) is determined by scaling the signal by the \textbf{portfolio risk fraction} ($\gamma$):
     \[ \Phi = \gamma \cdot \left( \sum_{i=1}^{3} w_i x_i \right), \quad \gamma \in (0, 1] \]
+where $\sum_{i=1}^{3} w_i = 1$.
     The component consensus acts as the \textit{execution gate}, while the magnitude of $\Phi$ determines the \textit{capital commitment}.
 
   \end{block}
@@ -427,10 +444,11 @@
 
     \heading{Future Work}
     \begin{itemize}
-      \item Extend to non-crypto markets (politics, geopolitics) with longer horizons
-      \item Optimize top wallet detection via machine leaning
+      \item Collecting Dataset
+      \item Optimize top wallet detection via machine learning (random forest)
       \item Optimize parameters via backtesting on historical data 
-      \item Monte Carlo simulation of the strategy under various market condiitons
+      \item Monte Carlo simulation of the strategy under various market conditions  
+      \item Extend to non-crypto markets (politics, geopolitics) with longer horizons
     \end{itemize}
 
   \end{block}

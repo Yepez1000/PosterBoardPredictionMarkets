@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.3.8)  20 APR 2026 12:20
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.3.8)  20 APR 2026 19:33
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1000,7 +1000,7 @@ File: Brown_PM_Distributions_Evolution.png Graphic file (type bmp)
 File: Evol_15min_mkrsDistibition.png Graphic file (type bmp)
 <Evol_15min_mkrsDistibition.png>
 LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <24.88> not available
-(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 452.
+(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 470.
 
 
 [1
@@ -1030,10 +1030,10 @@ Package rerunfilecheck Info: File `posterboard.out' has not changed.
 Here is how much of TeX's memory you used:
  40320 strings out of 473832
  974043 string characters out of 5729482
- 1652108 words of memory out of 5000000
+ 1650108 words of memory out of 5000000
  62617 multiletter control sequences out of 15000+600000
  591816 words of font info for 95 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  128i,19n,123p,732b,1679s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on posterboard.xdv (2 pages, 104380 bytes).
+Output written on posterboard.xdv (2 pages, 102148 bytes).
