@@ -55,11 +55,11 @@
 % Footer (optional)
 % ====================
 
-\footercontent{
-  \href{https://github.com/maxleal5/PolyMarketInsiders}{github.com/maxleal5/PolyMarketInsiders} \hfill
-  Texas A\&M University, 2026 \hfill
-  \href{https://github.com/maxleal5/Polymarket-Engine}{github.com/maxleal5/Polymarket-Engine}}
-% (can be left out to remove footer)
+% \footercontent{
+%   \href{https://github.com/maxleal5/PolyMarketInsiders}{github.com/maxleal5/PolyMarketInsiders} \hfill
+%   Texas A\&M University, 2026 \hfill
+%   \href{https://github.com/maxleal5/Polymarket-Engine}{github.com/maxleal5/Polymarket-Engine}}
+% % (can be left out to remove footer)
 
 % ====================
 % Logo (optional)
@@ -194,17 +194,17 @@
           \toprule
           \textbf{Signal} & \textbf{Detection Logic} \\
           \midrule
-          Profit Factor (28\%) & $\text{PF} = \text{gross\_wins} / \text{gross\_losses} > 2.5$ over $\geq$10 trades (PF $= \infty$ if gross\_losses $= 0$) \\
-          Pre-Resolution Spike (18\%) & $z$-score $> 3.0$ vs.\ 90-day baseline in 24h before resolution \\
-          New Wallet + Large Bet (10\%) & First-ever trade $>$ \$500 on viable market within 30 days \\
-          Equity Curve Quality (7\%) & Sharpe-like ratio $\times (1 - \text{max drawdown})$; steady upward PnL \\
-          Fund-to-Trade Gap (6\%) & Funded then traded: $<$1h (extreme), 1--6h (high), 6--24h (moderate) \\
-          Position Flip (6\%) & Last-minute correct side-switch with larger position \\
-          Market Concentration (6\%) & Low category entropy + high fraction of information dependent markets \\
-          Network Link (6\%) & Wallet connected to known watchlist wallets (3-tier scoring) \\
-          Order Size Drift (4\%) & Pre-resolution trade $> 4\times$ rolling average size \\
-          Network Propagation (4\%) & Funding source is itself a flagged wallet \\
-          Consecutive Win Streak (4\%) & $\geq$5 consecutive wins on underdog-side entries \\
+          Profit Factor (35\%) & $\text{PF} = \text{gross\_wins} / \text{gross\_losses} > 2.5$ over $\geq$10 trades (PF $= \infty$ if gross\_losses $= 0$) \\
+          % Pre-Resolution Spike (18\%) & $z$-score $> 3.0$ vs.\ 90-day baseline in 24h before resolution \\
+          New Wallet + Large Bet (20\%) & First-ever trade $>$ \$500 on viable market within 30 days \\
+          Equity Curve Quality (10\%) & Sharpe-like ratio $\times (1 - \text{max drawdown})$; steady upward PnL \\
+          Fund-to-Trade Gap (5\%) & Funded then traded: $<$1h (extreme), 1--6h (high), 6--24h (moderate) \\
+          Position Flip (5\%) & Last-minute correct side-switch with larger position \\
+          Market Concentration (5\%) & Low category entropy + high fraction of information dependent markets \\
+          Network Link (5\%) & Wallet connected to known watchlist wallets (3-tier scoring) \\
+          Order Size Drift (5\%) & Pre-resolution trade $> 4\times$ rolling average size \\
+          Network Propagation (5\%) & Funding source is itself a flagged wallet \\
+          Consecutive Win Streak (5\%) & $\geq$5 consecutive wins on underdog-side entries \\
           \bottomrule
         \end{tabular}
       \end{table}
@@ -431,14 +431,14 @@ where $\sum_{i=1}^{3} w_i = 1$. Currently, weights are initialized equally: $w_1
           \centering
           \begin{tabular}{l r}
             \toprule
-            \textbf{Metric} \& \textbf{Value} \\
+            \textbf{Metric} & \textbf{Value} \\
             \midrule
-            Total Realized PnL \& \$350.80 \\
-            Winning Trades \& 7 / 9 \\
-            \textbf{Win Rate} \& \textbf{77.78\%} \\
-            Long Win Rate \& 100\% \\
-            Short Win Rate \& 75\% \\
-            \textbf{Sharpe Ratio} \& \textbf{2.2642} \\
+            Total Realized PnL & \$350.80 \\
+            Winning Trades & 7 / 9 \\
+            \textbf{Win Rate} & \textbf{77.78\%} \\
+            Long Win Rate & 100\% \\
+            Short Win Rate & 75\% \\
+            \textbf{Sharpe Ratio} & \textbf{2.2642} \\
             \bottomrule
           \end{tabular}
         \end{table}
@@ -450,12 +450,12 @@ where $\sum_{i=1}^{3} w_i = 1$. Currently, weights are initialized equally: $w_1
           \centering
           \begin{tabular}{l c c r}
             \toprule
-            \textbf{Ticker} \& \textbf{Type} \& \textbf{Entry} \& \textbf{Return} \\
+            \textbf{Ticker} & \textbf{Type} & \textbf{Entry} & \textbf{Return} \\
             \midrule
-            COIN \& Short \& \$162.56 \& +13.2\% \\
-            WYNN \& Short \& \$117.25 \& +8.0\% \\
-            SUN  \& Long  \& \$57.65  \& +4.9\% \\
-            DEFT \& Short \& \$1.51   \& -16.1\% \\
+            COIN & Short & \$162.56 & +13.2\% \\
+            WYNN & Short & \$117.25 & +8.0\% \\
+            SUN  & Long  & \$57.65  & +4.9\% \\
+            DEFT & Short & \$1.51   & -16.1\% \\
             \bottomrule
           \end{tabular}
         \end{table}
