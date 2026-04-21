@@ -194,7 +194,7 @@
           \toprule
           \textbf{Signal} & \textbf{Detection Logic} \\
           \midrule
-          Profit Factor (28\%) & $\text{gross\_wins} / \text{gross\_losses} > 2.5$ over $\geq$10 trades \\
+          Profit Factor (28\%) & $\text{PF} = \text{gross\_wins} / \text{gross\_losses} > 2.5$ over $\geq$10 trades (PF $= \infty$ if gross\_losses $= 0$) \\
           Pre-Resolution Spike (13\%) & $z$-score $> 3.0$ vs.\ 90-day baseline in 24h before resolution \\
           New Wallet + Large Bet (10\%) & First-ever trade $>$ \$500 on viable market within 30 days \\
           Equity Curve Quality (7\%) & Sharpe-like ratio $\times (1 - \text{max drawdown})$; steady upward PnL \\
@@ -267,7 +267,7 @@
 
 
     \[
-      Signal = \sum_{i=0}^n\frac{W_{score}*Pos * p * dir}{W_{score}*Pos * p}  
+      \text{Signal} = \frac{\sum_{i=1}^{n} (W_{score}_i \cdot \text{Pos}_i \cdot p \cdot \text{dir}_i)}{\sum_{i=1}^{n} |W_{score}_i \cdot \text{Pos}_i \cdot p|}
     \]
 
 
@@ -275,8 +275,8 @@
     \heading{Entry \& Exit Rules}
 
     \begin{itemize}
-      \item $\theta_{\text{entry}}$ : Minimum signal magnitude to enter a trade 
-      \item $\theta_{\text{exit}}$ : Signal magnitude threshold to exit a trade (weakened signal)
+      \item $\theta_{\text{entry}} \in [0, 1]$ : Minimum signal magnitude to enter a trade (heuristic, $\theta=1$ means never enter)
+      \item $\theta_{\text{exit}} \in [0, 1]$ : Signal magnitude threshold to exit a trade (weakened signal); currently not optimized
     \end{itemize}
 
     \begin{table}
@@ -295,12 +295,13 @@
       \end{tabular}
     \end{table}
 
-    \heading{Position Sizing Modes}
-    \textbf{portfolio risk fraction} ($\gamma$):
+    \heading{Position Sizing}
+    Given the portfolio risk fraction ($\gamma$) and the consensus signal ($s$), the number of shares to purchase is:
 
     \[
-      \text{qty} = \left\lfloor \frac{\text{cash} \times \gamma \times \hat{|s|}}{\text{price}} \right\rfloor
+      \text{qty} = \left\lfloor \frac{\text{cash} \times \gamma \times |s|}{\text{price}} \right\rfloor
     \]
+    where $s$ is the normalized signal from the wallet consensus calculation, with magnitude $|s| \in [0, 1]$.
 
     % Six scaling modes: Flat, Linear, Log, Sqrt, Quadratic, Exponential.
 
@@ -321,10 +322,10 @@
 
     \textbf{1. Signal Normalization ($x_i$)}
     \begin{itemize}
-      \item \textbf{Polymarket Price($x_1$):} $p \in [0,1]$ is normalized and scaled by logarithmic liquidity $V$:
+      \item \textbf{Polymarket Price($x_1$):} $p \in [0,1]$ is normalized and scaled by logarithmic liquidity $V$ (calibrated so that $V = 100{,}000$ yields maximum scaling):
       \[ x_1 = 2(p - 0.5) \cdot \max\left( \frac{\log_{10}(V)}{5}, 1 \right) \]
       \item \textbf{SmartEstimate Surprise ($x_2$):} The Refinitiv StarMine percentage surprise $S_{pct}$ is normalized over a 20\% threshold:
-      \[ x_2 = \min\left(\max\left(\frac{S_{pct}}{20}, 1\right), -1\right) \]
+      \[ x_2 = \min\left(\max\left(\frac{S_{pct}}{20}, -1\right), 1\right) \]
       \item \textbf{Analyst Sentiment ($x_3$):} Rescales mean recommendations $A_{rec} \in [1,5]$:
       \[ x_3 = \frac{A_{rec} - 3}{2} \]
     \end{itemize}
@@ -383,19 +384,21 @@
 
     \textbf{2. Execution Logic (Binary)}
     A trade is initiated \textbf{if and only if} all signals show total directional consensus:
-    \[ \text{Condition: } (x_1, x_2, x_3) > 0 \quad \text{or} \quad (x_1, x_2, x_3) < 0 \]
-    Each component is bounded such that $x_i \in [-1, 1]$.
+    \[ \text{Condition: } \text{sgn}(x_1) = \text{sgn}(x_2) = \text{sgn}(x_3) \neq 0 \]
+    That is, all three components must have the same sign (all positive or all negative). Each component is bounded such that $x_i \in [-1, 1]$.
 
     \textbf{3. Portfolio Allocation \& Risk Management ($\Phi$)}
     If the execution condition is met, the allocation $\Phi$ (fraction of total portfolio) is determined by scaling the signal by the \textbf{portfolio risk fraction} ($\gamma$):
-    \[ \Phi = \gamma \cdot \left( \sum_{i=1}^{3} w_i x_i \right), \quad \gamma \in (0, 1] \]
-where $\sum_{i=1}^{3} w_i = 1$.
+    \[ \Phi = \gamma \cdot \left( \sum{i=1}^{3} w_i x_i \right), \quad \gamma \in (0, 1] \]
+where $\sum{i=1}^{3} w_i = 1$. Currently, weights are initialized equally: $w_1 = w_2 = w_3 = \frac{1}{3}$ (optimization pending).
     The component consensus acts as the \textit{execution gate}, while the magnitude of $\Phi$ determines the \textit{capital commitment}.
 
   \end{block}
 
   \begin{block}{Results}
     Polymarket introduced dedicated earnings contracts in September 2025, therefore the backtest period for the earnings model is limited to Q4 2025. The model only traded 9 stocks out of 500. 
+    
+    \small{\textit{Note: Sharpe ratio calculated on trade-level returns as } $\frac{\mu(r)}{\sigma(r)}$\textit{, where } $r$ \textit{is individual trade return and risk-free rate = 0.}} 
 
     \begin{columns}[t]
       \begin{column}{0.45\linewidth}
@@ -478,11 +481,40 @@ where $\sum_{i=1}^{3} w_i = 1$.
 \separatorcolumn
 
 \begin{column}{\colwidth}
-  
 
+  \begin{block}{Notation \& Definitions}
+    
+    \textbf{Model I: Wallet Consensus Signals}
+    \begin{itemize}
+      \item $p$ : Price of security in $[0,1]$ (implied probability)
+      \item $n$ : Number of tracked insider wallets in current market
+      \item $W_{score}_i$ : Insider score of wallet $i$ (0--100 scale)
+      \item $\text{Pos}_i$ : Position size of wallet $i$ (number of shares)
+      \item $\text{dir}_i$ : Trade direction of wallet $i$ ($-1$ for short, $+1$ for long)
+      \item $\text{Signal}$ : Consensus score over tracked wallets; ranges in $[-1, 1]$
+      \item $\theta_{\text{entry}}, \theta_{\text{exit}}$ : Entry/exit thresholds in $[0, 1]$ (heuristic-based)
+    \end{itemize}
 
+    \textbf{Model II: Earnings Convergence Signals}
+    \begin{itemize}
+      \item $x_1$ : Polymarket price signal (normalized, bounded in $[-1, 1]$)
+      \item $x_2$ : SmartEstimate surprise signal (normalized, bounded in $[-1, 1]$)
+      \item $x_3$ : Analyst sentiment signal (normalized, bounded in $[-1, 1]$)
+      \item $V$ : Trading volume in current market
+      \item $S_{pct}$ : StarMine percentage surprise (\%)
+      \item $A_{rec}$ : Mean analyst recommendation (1--5 scale)
+    \end{itemize}
 
-  %%% content for this column %%%
+    \textbf{Portfolio Parameters}
+    \begin{itemize}
+      \item $\gamma$ : Portfolio risk fraction in $(0, 1]$
+      \item $w_i$ : Weight for signal component $i$ (currently $w_i = 1/3$ for all $i$)
+      \item $\Phi$ : Capital allocation fraction of portfolio (execution gate magnitude)
+      \item $\text{cash}$ : Total available portfolio cash
+      \item $\text{qty}$ : Number of shares to purchase (floor function applied)
+    \end{itemize}
+
+  \end{block}
 
 
 \end{column}
